@@ -99,10 +99,8 @@ const IntroductionDescription = () => {
       formData.append("major", teamMember.major);
       formData.append("content", teamMember.content);
 
-      if (selectedFile) {
+      if (selectedFile !== null) {
         formData.append("files", selectedFile);
-      } else {
-        formData.append("files", teamMember.imageUrl[0]);
       }
 
       const response = await fetch(
