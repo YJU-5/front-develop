@@ -10,7 +10,7 @@ const BulletinBoard = () => {
   const [totalPages, setTotalPages] = useState(1); 
   const limit = 10; 
 
-  // fetch로 post들을 가져옴, 이 부분이 제일 이해가 안되는 부분
+  // fetch로 post들을 가져옴
   useEffect(() => {
     const fetchPosts = async () => {
       try {
