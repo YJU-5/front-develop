@@ -41,6 +41,10 @@
   margin-right: 0;
 }
 
+.introduction-description .one-input input {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
 .introduction-description .right-content {
   margin: 5%;
   width: 70%;
