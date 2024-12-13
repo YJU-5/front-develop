@@ -1,39 +1,52 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
+
+
+
 const BulletinBoard = () => {
   const navigate = useNavigate();
   const [posts, setPosts] = useState<any[]>([]); 
-  const [loading, setLoading] = useState(true); 
-  const [error, setError] = useState<string | null>(null); 
   const [currentPage, setCurrentPage] = useState(1); 
   const [totalPages, setTotalPages] = useState(1); 
   const limit = 10; 
 
-  // fetch로 post들을 가져옴
+
+  
+  
+  //fetch로 post들을 가져옴
   useEffect(() => {
     const fetchPosts = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(
-          `http://localhost:3001/board?page=${currentPage}&limit=${limit}`
-        );
-        if (!response.ok) {
-          throw new Error(`Failed to fetch posts: HTTP ${response.status}`);
-        }
-        const data = await response.json();
-        setPosts(data.items); // Set the posts
-        setTotalPages(data.meta.totalPages); // Set total pages
-        setLoading(false);
-      } catch (err: any) {
-        setError(err.message);
-        setLoading(false);
-      }
+      const response = await fetch(
+        `http://localhost:3001/board?page=${currentPage}&limit=${limit}`
+      );
+      const data = await response.json();
+      // posts를 updatedAt 기준으로 정렬
+      const sortedPosts = data.items.sort((a: any, b: any) => {
+        return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime();
+      });
+      setPosts(sortedPosts); 
+      setTotalPages(data.meta.totalPages); 
     };
-
     fetchPosts();
   }, [currentPage]); // 페이지가 변경될 때마다 리렌더링
 
+    // fetch로 post들을 가져옴
+    // useEffect(() => {
+    //   const fetchPosts = async () => {
+    //     const response = await fetch(
+    //       `http://localhost:3001/board?page=${currentPage}&limit=${limit}`
+    //     );
+    //     const data = await response.json();
+    //     setPosts(data.items); // Set the posts
+    //     setTotalPages(data.meta.totalPages); // Set total pages
+    //     } 
+    //   };
+  
+    //   fetchPosts();
+    // }, [currentPage]); // 페이지가 변경될 때마다 리렌더링
+
+    
   // detailedPost페이지로 이동
   const goToDetailPage = (id: string) => {
     navigate(`/detailedPost/${id}`); 
@@ -55,14 +68,10 @@ const BulletinBoard = () => {
   const handleNavigation = (path: string) => {
     navigate(path);
   };
-
-  if (loading) return <p className="text-center text-gray-500">Loading posts...</p>;
-  if (error) return <p className="text-center text-red-500">Error: {error}</p>;
   
 
 
   
-  // 화면에 렌더링 되는 부분 ->
   return (
     <div className="max-w-6xl px-4 py-6 mx-auto">
       {/* 네비 바 */}
