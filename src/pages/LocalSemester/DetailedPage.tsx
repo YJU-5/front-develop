@@ -16,6 +16,7 @@ const Detailed_Page = () => {
     user: { id: "", name: "" },
   });
 
+  //상세보기클릭시 id를 받아와서 id가 변경될때마다 다른페이지를 보여준다다
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(
@@ -26,20 +27,22 @@ const Detailed_Page = () => {
           //   "Content-Type": "application/json",}
         }
       );
-      const data = await response.json();
+      const data = await response.json(); // response를 json형태로 변환환
       setData(data);
     };
     fetchData();
   }, [id]);
 
+  //updata-page로 이동동
   function onClickupdate() {
     navigate("/update-page", { state: { id: data.id } });
   }
 
+  //글삭제
   function onClickDelete() {
     fetch("http://localhost:3001/local-semester/" + id, {
       method: "Delete",
-    }).then((r) => {
+    }).then((response) => {
       navigate("/local-semester");
     });
   }

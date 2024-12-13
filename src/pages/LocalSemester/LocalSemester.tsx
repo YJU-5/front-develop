@@ -19,7 +19,7 @@ export interface Semester {
 
 const LocalSemester = () => {
   const navigate = useNavigate();
-  const [data, setData] = useState<Semester[]>([]);
+  const [data, setData] = useState<Semester[]>([]); //현지학기제 글 전체 받아서 저장장
 
   useEffect(() => {
     fetch("http://localhost:3001/local-semester", {
@@ -27,15 +27,10 @@ const LocalSemester = () => {
       // headers: {
       //   "Content-Type": "application/json",}
     })
-      .then((r) => r.json()) // response
-      .then((d) => {
+      .then((response) => response.json()) // response를 json형태로 변환환
+      .then((response) => {
         // data
-        setData(d);
-        // 내림차순 정렬 (최신 날짜가 첫 번째에 위치)
-        data.sort(
-          (a, b) =>
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        );
+        setData(response);
       });
   }, []);
 

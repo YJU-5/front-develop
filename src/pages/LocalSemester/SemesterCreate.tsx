@@ -9,10 +9,11 @@ interface Datastate {
 }
 
 const Semester_create = () => {
-  const [token, setToken] = useState<any>();
+  const [token, setToken] = useState<any>(); 
   const [user, setUser] = useState<any>("");
   const navigate = useNavigate();
-  const [data, setData] = useState<Datastate>({
+  //내가 작성한 글을 저장
+  const [data, setData] = useState<Datastate>({  
     title: "",
     content: "",
     imageUrl: [],
@@ -25,6 +26,8 @@ const Semester_create = () => {
     setToken(usertoken);
   }, []);
 
+
+  // 이미지 받아오기기
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const Files = e.target.files;
     if (Files) {
@@ -35,14 +38,17 @@ const Semester_create = () => {
     }
   };
 
+  //content 받아오기
   const onChangetext = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const content = e.target.value;
-    setData((prevData) => ({
+    setData((prevData) => ({   //prevData는 기존data안에있는 값
       ...prevData,
       ["content"]: content,
     }));
   };
 
+
+    //title 받아오기
   const onChangetitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     const title = e.target.value;
     setData((prevData) => ({
@@ -51,6 +57,7 @@ const Semester_create = () => {
     }));
   };
 
+  //이미지 지우기
   const onClickimgDelete = (file: File) => {
     setData((prevData) => ({
       ...prevData,
@@ -58,6 +65,8 @@ const Semester_create = () => {
     }));
   };
 
+
+  //POST
   const onClickPOST = () => {
     const formdata = new FormData();
     formdata.append("title", data.title);
@@ -72,8 +81,8 @@ const Semester_create = () => {
         Authorization: `Bearer ${token}`, // 여기서 yourToken은 실제 토큰 값입니다.
       },
       body: formdata,
-    }).then((r) => {
-      if (r.ok) {
+    }).then((respones) => {
+      if (respones.ok) {
         navigate("/local-semester");
       }
     });
@@ -121,6 +130,7 @@ const Semester_create = () => {
           />
           <div className="grid grid-cols-3 gap-4 mt-4">
             {data.imageUrl.map((file, index) => {
+              //화면에 보일수있도록 변경하여 imageUrl에 저장
               const imageUrl = URL.createObjectURL(file);
               return (
                 <div className="flex justify-center" key={index}>

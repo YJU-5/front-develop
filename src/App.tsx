@@ -4,6 +4,7 @@ import {
   Routes,
   Route,
   Navigate,
+  useNavigate,
 } from "react-router-dom";
 import BulletinBoard from "./pages/bulletinBoard/BulletinBoard";
 import Introduction from "./pages/introduction/Introduction";
@@ -20,10 +21,15 @@ import Update_Page from "./pages/LocalSemester/UpdatePage";
 import Navbar from "./pages/components/Navbar";
 
 function App() {
+
+
   return (
     <div className="app">
       <Router>
-        <h1 className="m-3 text-3xl font-bold">5조 홈페이지</h1>
+        <div className="flex w-full mb-6 place-content-between justify-left">
+        <h1  className="m-3 text-3xl font-bold" >5조 홈페이지</h1>
+        <a href="/login" className="text-white" ><button>로그인</button></a> 
+        </div>
         <Navbar />
         <Routes>
           <Route path="/" element={<Navigate to="/introduction" />} />
