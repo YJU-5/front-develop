@@ -31,21 +31,6 @@ const BulletinBoard = () => {
     fetchPosts();
   }, [currentPage]); // 페이지가 변경될 때마다 리렌더링
 
-    // fetch로 post들을 가져옴
-    // useEffect(() => {
-    //   const fetchPosts = async () => {
-    //     const response = await fetch(
-    //       `http://localhost:3001/board?page=${currentPage}&limit=${limit}`
-    //     );
-    //     const data = await response.json();
-    //     setPosts(data.items); // Set the posts
-    //     setTotalPages(data.meta.totalPages); // Set total pages
-    //     } 
-    //   };
-  
-    //   fetchPosts();
-    // }, [currentPage]); // 페이지가 변경될 때마다 리렌더링
-
     
   // detailedPost페이지로 이동
   const goToDetailPage = (id: string) => {

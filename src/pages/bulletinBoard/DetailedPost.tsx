@@ -17,7 +17,7 @@ interface postState{
   title:string,
   content:string,
   imageUrl:string[], // 기존 이미지 파일 URL
-  newImageUrl:File[], //새로 추가된 이미지 파일 URL
+  newImageUrl:string[], //새로 추가된 이미지 파일 URL
   comments:commentState[],
 }
 
@@ -40,6 +40,8 @@ const DetailedPost = () => {
     content:'',
   });
   const [isEditing, setIsEditing] = useState(false); 
+  const [isEditingCommentId, setIsEditingCommentId] = useState<string | null>(null); // 댓글 수정 상태 관리
+
   
   
   // 게시글&댓글 READ
@@ -111,23 +113,12 @@ const DetailedPost = () => {
       method: "PATCH",
       body:formdata,
     })
-    // .then((r)=>{
-    //   if(r.ok){
-    //     console.log(r);
-    //     setIsEditing(false); // edit모드에서 나가기
-    //     alert("Post updated successfully!");
-    //   }
-    // })
-    .then((r) => {
-      if (r.ok) 
+    .then((r)=>{
+      if(r.ok){
+        console.log(r);
+        setIsEditing(false); // edit모드에서 나가기
         alert("Post updated successfully!");
-        return fetch(`http://localhost:3001/board/${id}`);
       }
-    )
-    .then((res) => res.json())
-    .then((latestData) => {
-      setPostData(latestData);
-      setIsEditing(false);
     })
     .then(()=>{
       navigate(`/detailedPost/${id}`)
@@ -184,7 +175,32 @@ const DetailedPost = () => {
   }
 
   // 댓글 UPDATE
-  // const onClickCommentUpdate = () => {
+  const onClickCommentUPDATE = (commentId: string) => {
+    const payload = {
+      content: commentData.content,
+    };
+  
+    fetch(`http://localhost:3001/comment/${commentId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    })
+      .then((r) => {
+        if (r.ok) {
+          alert("Comment updated successfully!");
+          return fetch(`http://localhost:3001/board/${id}`);
+        }
+      })
+      .then((response) => response.json())
+      .then((latestData) => {
+        setPostData(latestData);
+        setIsEditingCommentId(null); // 수정 모드 해제
+      });
+  };
+  
+  // const onClickCommentUPDATE = () => {
   //   const payload = {
   //     content: commentData.content,
   //   };
@@ -208,7 +224,25 @@ const DetailedPost = () => {
   // }
 
   // 댓글 DELETE
-  // const onClickCommentDelete = () => {
+  const onClickCommentDELETE = (commentId: string) => {
+    if (!window.confirm("Are you sure you want to delete this comment?")) return;
+  
+    fetch(`http://localhost:3001/comment/${commentId}`, {
+      method: "DELETE",
+    })
+      .then((r) => {
+        if (r.ok) {
+          alert("Comment deleted successfully!");
+          return fetch(`http://localhost:3001/board/${id}`);
+        }
+      })
+      .then((response) => response.json())
+      .then((latestData) => {
+        setPostData(latestData);
+      });
+  };
+  
+  // const onClickCommentDELETE = () => {
   //   if (!window.confirm("Are you sure you want to delete this comment?")) return; // 진짜 삭제할건지 사용자에게 확인 받기
   //   fetch(`http://localhost:3001/comment/${id}`, {
   //     method: "DELETE",
@@ -332,7 +366,7 @@ const DetailedPost = () => {
                   </button>
                 </form>
                 <ul className="mt-4 space-y-2">
-                  {postData.comments
+                  {/* {postData.comments
                   .slice() // 원본 배열을 복사하여 원본 데이터가 변경되지 않도록 함
                     .sort((a, b) => { // createdAt을 기준으로 내림차순 정렬
                     const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;  // createdAt의 값이 undefined일 가능성이 있어서 이렇게 기본값을 세팅해줌
@@ -349,6 +383,69 @@ const DetailedPost = () => {
                     ) : (
                       <span className="text-sm text-gray-500">Date not available</span>
                     )}
+                    </li>
+                  ))} */}
+                  {postData.comments
+                    .slice()
+                    .sort((a, b) => {
+                      const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+                      const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+                      return dateB - dateA;
+                    })
+                    .map((comment, index) => (
+                      <li key={index} className="p-2 border border-gray-300 rounded-md">
+                        {isEditingCommentId === comment.id ? (
+                          <>
+                            <textarea
+                              className="w-full p-2 border border-gray-300 rounded-md"
+                              value={commentData.content}
+                              onChange={(e) =>
+                                setCommentData({
+                                ...commentData,
+                                content: e.target.value,
+                              })
+                            }
+                          />
+                          <button
+                            onClick={() => onClickCommentUPDATE(comment.id)}
+                            className="px-2 py-1 text-white bg-green-600 rounded-md hover:bg-green-700"
+                          >
+                            Save
+                          </button>
+                          <button
+                            onClick={() => setIsEditingCommentId(null)}
+                            className="px-2 py-1 text-white bg-gray-600 rounded-md hover:bg-gray-700"
+                          >
+                            Cancel
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          <p>{comment.content}</p>
+                          {comment.createdAt && (
+                            <span className="text-sm text-gray-500">
+                              Created at: {new Date(comment.createdAt).toLocaleString()}
+                            </span>
+                          )}
+                          <div className="flex mt-2 space-x-2">
+                            <button
+                              onClick={() => {
+                                setIsEditingCommentId(comment.id);
+                                setCommentData({ id: comment.id, content: comment.content });
+                              }}
+                              className="px-2 py-1 text-white bg-yellow-600 rounded-md hover:bg-yellow-700"
+                            > 
+                            Edit
+                            </button>
+                            <button
+                              onClick={() => onClickCommentDELETE(comment.id)}
+                              className="px-2 py-1 text-white bg-red-600 rounded-md hover:bg-red-700"
+                            >
+                            Delete
+                           </button>
+                          </div>
+                        </>
+                      )}
                     </li>
                   ))}
                 </ul>
