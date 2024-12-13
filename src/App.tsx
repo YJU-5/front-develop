@@ -10,7 +10,7 @@ import BulletinBoard from "./pages/bulletinBoard/BulletinBoard";
 import DetailedPost from "./pages/bulletinBoard/DetailedPost";
 import NewPost from "./pages/bulletinBoard/NewPost";
 import Introduction from "./pages/Introduction";
-import LocalSemester from "./pages/LocalSemester";
+import LocalSemester from "./pages/LocalSemester/LocalSemester";
 import CreateMember from "./pages/introduction/CreateMember";
 
 function App() {
