@@ -55,7 +55,7 @@ const Introduction = () => {
   };
 
   const onClick2 = () => {
-    navigate("/localSemester");
+    navigate("/local-semester");
   };
 
   const onClick3 = () => {
@@ -67,7 +67,7 @@ const Introduction = () => {
   };
 
   const onClickProfile = (pram: string) => {
-    navigate("/introduction_description", { state: pram });
+    navigate("/introduction-description", { state: pram });
   };
 
   return (

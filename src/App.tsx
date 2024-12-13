@@ -9,8 +9,15 @@ import Home from "./pages/Home";
 import BulletinBoard from "./pages/BulletinBoard";
 import Introduction from "./pages/Introduction";
 import IntroductionDescription from "./pages/introduction/IntroductionDescription";
-import LocalSemester from "./pages/LocalSemester";
+import LocalSemester from "./pages/LocalSemester/LocalSemester";
 import CreateMember from "./pages/introduction/CreateMember";
+import DetailedPost from "./pages/bulletinBoard/DetailedPost";
+import NewPost from "./pages/bulletinBoard/NewPost";
+import Login from "./pages/Login/Login";
+import Sign_up from "./pages/Login/SignUp";
+import Semester_create from "./pages/LocalSemester/SemesterCreate";
+import Detailed_Page from "./pages/LocalSemester/DetailedPage";
+import Update_Page from "./pages/LocalSemester/UpdatePage";
 
 function App() {
   return (
@@ -19,16 +26,31 @@ function App() {
         <Routes>
           <Route path="/" element={<Navigate to="/home" />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/bulletinBoard" element={<BulletinBoard />} />
+
+          {/* 조원 소개 */}
           <Route path="/introduction" element={<Introduction />} />
           <Route
-            path="/introduction_description"
+            path="/introduction-description"
             element={<IntroductionDescription />}
           ></Route>
           <Route path="/create-member" element={<CreateMember />} />
-          <Route path="/localSemester" element={<LocalSemester />} />
+
+          {/* 현지 학기 */}
+          <Route path="/local-semester" element={<LocalSemester />} />
+          <Route path="/semester-create" element={<Semester_create />} />
+          <Route path="/detailed-page" element={<Detailed_Page />} />
+          <Route path="/update-page" element={<Update_Page />} />
+
+          {/* 로그인 */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/sign-up" element={<Sign_up />} />
+
+          {/* 게시판 */}
+          <Route path="/bulletin-board" element={<BulletinBoard />} />
+          <Route path="/detailed-post/:id" element={<DetailedPost />} />
+          <Route path="/new-post" element={<NewPost />} />
         </Routes>
-      </Router>{" "}
+      </Router>
     </div>
   );
 }

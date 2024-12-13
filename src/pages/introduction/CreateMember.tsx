@@ -86,11 +86,11 @@ const CreateMember = () => {
   };
 
   const onClick2 = () => {
-    navigate("/localSemester");
+    navigate("/local-semester");
   };
 
   const onClick3 = () => {
-    navigate("/bulletinBoard");
+    navigate("/bulletin-board");
   };
 
   return (
