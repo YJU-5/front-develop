@@ -2,21 +2,24 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import "../../styles/introduction/introductionDescription.css";
 
+// TeamMember 인터페이스 정의
+// 팀원 정보를 담는 객체 타입
 interface TeamMember {
-  id: string;
-  title: string;
-  age: number;
-  major: string;
-  content: string;
-  imageUrl: string[];
+  id: string; // 팀원의 고유 식별자
+  title: string; // 팀원의 이름
+  age: number; // 팀원의 나이
+  major: string; // 팀원의 전공
+  content: string; // 팀원의 소개글
+  imageUrl: string[]; // 팀원의 이미지 URL 배열
 }
 
 const IntroductionDescription = () => {
   const { state: teamMemberId } = useLocation();
   const navigate = useNavigate();
 
-  const [isUpdate, setIsUpdate] = useState<boolean>(false);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  // 주요 상태값들 정의
+  const [isUpdate, setIsUpdate] = useState<boolean>(false); // 수정 모드 상태
+  const [selectedFile, setSelectedFile] = useState<File | null>(null); // 선택된 파일
   const [teamMember, setTeamMember] = useState<TeamMember>({
     id: "",
     title: "",
@@ -26,8 +29,7 @@ const IntroductionDescription = () => {
     imageUrl: [],
   });
 
-  // 수정
-  // useCallback을 사용하여 함수를 캐싱
+  // 입력값 변경 핸들러 (useCallback으로 최적화)
   const handleInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
@@ -40,8 +42,7 @@ const IntroductionDescription = () => {
     []
   );
 
-  // 사진 업로드
-  // useCallback을 사용하여 함수를 캐싱
+  // 파일 업로드 핸들러 (useCallback으로 최적화)
   const handleFileChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target.files && e.target.files[0]) {

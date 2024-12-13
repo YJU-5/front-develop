@@ -11,27 +11,24 @@ import Introduction from "./pages/Introduction";
 import IntroductionDescription from "./pages/introduction/IntroductionDescription";
 import LocalSemester from "./pages/LocalSemester";
 import CreateMember from "./pages/introduction/CreateMember";
-import { AuthProvider } from "./contexts/AuthContext";
 
 function App() {
   return (
     <div className="app">
-      <AuthProvider>
-        <Router>
-          <Routes>
-            <Route path="/" element={<Navigate to="/home" />} />
-            <Route path="/home" element={<Home />} />
-            <Route path="/bulletinBoard" element={<BulletinBoard />} />
-            <Route path="/introduction" element={<Introduction />} />
-            <Route
-              path="/introduction_description"
-              element={<IntroductionDescription />}
-            ></Route>
-            <Route path="/create-member" element={<CreateMember />} />
-            <Route path="/localSemester" element={<LocalSemester />} />
-          </Routes>
-        </Router>{" "}
-      </AuthProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Navigate to="/home" />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/bulletinBoard" element={<BulletinBoard />} />
+          <Route path="/introduction" element={<Introduction />} />
+          <Route
+            path="/introduction_description"
+            element={<IntroductionDescription />}
+          ></Route>
+          <Route path="/create-member" element={<CreateMember />} />
+          <Route path="/localSemester" element={<LocalSemester />} />
+        </Routes>
+      </Router>{" "}
     </div>
   );
 }

@@ -2,13 +2,18 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const CreateMember = () => {
+  // 팀 멤버 정보를 관리하는 state
   const [teamMember, setTeamMember] = useState({
-    title: "",
-    age: 0,
-    major: "",
-    content: "",
+    title: "", // 이름
+    age: 0, // 나이
+    major: "", // 전공
+    content: "", // 한 마디
   });
+
+  // 선택된 이미지 파일을 관리하는 state
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
+  // 페이지 네비게이션을 위한 훅
   const navigate = useNavigate();
 
   // 수정
@@ -17,27 +22,32 @@ const CreateMember = () => {
     const { name, value } = e.target;
     setTeamMember({
       ...teamMember,
-      // teamMember 객체의 name 프로퍼티에 value 할당 ( age는 숫자로 변환 )
-      [name]: name === "age" ? Number(value) : value,
+      [name]: name === "age" ? Number(value) : value, // age는 숫자로 변환
     });
   };
 
-  // 숫자만 입력하게 막기
+  // 나이 입력 시 숫자만 허용하는 함수
   const getNumberOnly = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const input = event.target as HTMLInputElement;
     input.value = input.value.replace(/[^0-9]/g, "");
   };
 
-  // 사진 업로드
+  // 파일 업로드 핸들러
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       setSelectedFile(e.target.files[0]);
     }
   };
 
-  // POST 요청
+  // 서버에 데이터를 전송하는 함수
   const onClickAdd = async () => {
     const formData = new FormData();
+    // FormData 객체 구조:
+    // - title: string
+    // - age: string (숫자를 문자열로 변환)
+    // - major: string
+    // - content: string
+    // - files: File (선택적)
 
     // FormData에 각 필드 추가
     formData.append("title", teamMember.title);
@@ -60,6 +70,7 @@ const CreateMember = () => {
       // response.json()은 Promise를 반환하므로 await를 사용하여 값을 추출
       const data = await response.json();
       setTeamMember(data);
+      // 응답 처리 및 에러 핸들링
     } catch (error) {
       console.log("Error fetching data:", error);
     }
