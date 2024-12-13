@@ -12,6 +12,12 @@ import NewPost from "./pages/bulletinBoard/NewPost";
 import Introduction from "./pages/Introduction";
 import LocalSemester from "./pages/LocalSemester/LocalSemester";
 import CreateMember from "./pages/introduction/CreateMember";
+import IntroductionDescription from "./pages/introduction/IntroductionDescription";
+import Semester_create from "./pages/LocalSemester/Semester_create";
+import Detailed_Page from "./pages/LocalSemester/Detailed_Page";
+import Update_Page from "./pages/LocalSemester/Update_Page";
+import Login from "./pages/Login/Login";
+import Sign_up from "./pages/Login/Sign_up";
 
 function App() {
 
@@ -22,14 +28,25 @@ function App() {
         <Routes>
           <Route path="/" element={<Navigate to="/home" />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/bulletinBoard" element={<BulletinBoard />} />
+          {/* 조원 소개 */}
           <Route path="/introduction" element={<Introduction />} />
           <Route
             path="/introduction_description"
             element={<IntroductionDescription />}
           ></Route>
           <Route path="/create-member" element={<CreateMember />} />
+          {/* 현지학기 */}
           <Route path="/localSemester" element={<LocalSemester />} />
+          <Route path="/Semester-create" element={<Semester_create />} />
+          <Route path="/Detailed_Page" element={<Detailed_Page />} />
+          <Route path="/Update_Page" element={<Update_Page />} />
+          {/* 게시판 */}
+          <Route path="/bulletinBoard" element={<BulletinBoard />} />
+          <Route path="/detailedPost/:id" element={<DetailedPost />} />
+          <Route path="/newPost" element={<NewPost />} />
+           {/* 로그인 */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/Sign_up" element={<Sign_up />} />
         </Routes>
       </Router>
     </div>
