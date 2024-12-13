@@ -51,36 +51,6 @@ const BulletinBoard = () => {
 
   return (
     <div className="max-w-6xl px-4 py-6 mx-auto">
-      {/* 네비 바 */}
-      <div className="flex justify-between mb-6">
-        <button
-          onClick={() => handleNavigation("/home")}
-          className="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700"
-        >
-          홈
-        </button>
-        <button
-          onClick={() => handleNavigation("/introduction")}
-          className="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700"
-        >
-          조원소개
-        </button>
-        <button
-          onClick={() => handleNavigation("/local-semester")}
-          className="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700"
-        >
-          현지학기
-        </button>
-        <button
-          onClick={() => handleNavigation("/bulletin-board")}
-          className="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700"
-        >
-          게시판
-        </button>
-      </div>
-
-      <h1 className="mb-6 text-2xl font-bold text-center">Bulletin Board</h1>
-
       {/* 글 작성 버튼 */}
       <div className="flex justify-end mb-4">
         <button

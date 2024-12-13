@@ -5,9 +5,8 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import Home from "./pages/Home";
-import BulletinBoard from "./pages/BulletinBoard";
-import Introduction from "./pages/Introduction";
+import BulletinBoard from "./pages/bulletinBoard/BulletinBoard";
+import Introduction from "./pages/introduction/Introduction";
 import IntroductionDescription from "./pages/introduction/IntroductionDescription";
 import LocalSemester from "./pages/LocalSemester/LocalSemester";
 import CreateMember from "./pages/introduction/CreateMember";
@@ -18,14 +17,16 @@ import Sign_up from "./pages/Login/SignUp";
 import Semester_create from "./pages/LocalSemester/SemesterCreate";
 import Detailed_Page from "./pages/LocalSemester/DetailedPage";
 import Update_Page from "./pages/LocalSemester/UpdatePage";
+import Navbar from "./pages/components/Navbar";
 
 function App() {
   return (
     <div className="app">
       <Router>
+        <h1 className="m-3 text-3xl font-bold">5조 홈페이지</h1>
+        <Navbar />
         <Routes>
-          <Route path="/" element={<Navigate to="/home" />} />
-          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<Navigate to="/introduction" />} />
 
           {/* 조원 소개 */}
           <Route path="/introduction" element={<Introduction />} />

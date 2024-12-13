@@ -77,29 +77,8 @@ const CreateMember = () => {
     navigate("/introduction");
   };
 
-  const onClick0 = () => {
-    navigate("/home");
-  };
-
-  const onClick1 = () => {
-    navigate("/introduction");
-  };
-
-  const onClick2 = () => {
-    navigate("/local-semester");
-  };
-
-  const onClick3 = () => {
-    navigate("/bulletin-board");
-  };
-
   return (
     <div className="introduction-description">
-      introduction-description
-      <button onClick={onClick0}>홈</button>
-      <button onClick={onClick1}>조원소개</button>
-      <button onClick={onClick2}>현지학기</button>
-      <button onClick={onClick3}>게시판</button>
       <div className="wrap-my-content-description">
         <div
           className="one-card"

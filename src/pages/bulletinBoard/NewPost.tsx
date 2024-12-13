@@ -63,14 +63,6 @@ const NewPost = () => {
 
   return (
     <div className="body">
-      <div className="container">
-        {/* 네비 바 */}
-        <button onClick={() => navigate("/home")}>홈</button>
-        <button onClick={() => navigate("/introduction")}>조원소개</button>
-        <button onClick={() => navigate("/localSemester")}>현지학기</button>
-        <button onClick={() => navigate("/bulletinBoard")}>게시판</button>
-      </div>
-
       <div className="flex flex-col items-center mx-auto w-11/12 h-[calc(100vh-4.4rem)] max-w-4xl">
         <div className="mx-auto h-[calc(100vh-14rem)]">
           <div className="h-20" />

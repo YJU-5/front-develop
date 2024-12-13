@@ -253,13 +253,6 @@ const DetailedPost = () => {
 
   return (
     <>
-      <div className="container">
-        {/* 네비 바 */}
-        <button onClick={() => navigate("/home")}>홈</button>
-        <button onClick={() => navigate("/introduction")}>조원소개</button>
-        <button onClick={() => navigate("/localSemester")}>현지학기</button>
-        <button onClick={() => navigate("/bulletinBoard")}>게시판</button>
-      </div>
       <div className="max-w-4xl p-4 mx-auto">
         {/* 글 수정 */}
         {isEditing ? (

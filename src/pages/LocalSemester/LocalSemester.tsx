@@ -43,18 +43,11 @@ const LocalSemester = () => {
 
   return (
     <div className="local-semester">
-      LocalSemester
-      <div className="container">
-        <button onClick={() => navigate("/home")}>홈</button>
-        <button onClick={() => navigate("/introduction")}>조원소개</button>
-        <button onClick={() => navigate("/local-semester")}>현지학기</button>
-        <button onClick={() => navigate("/bulletin-board")}>게시판</button>
-      </div>
       <div className="fixed p-2 bottom-4 right-4">
         <button
           className="px-4 py-2 font-bold text-white bg-gray-400 rounded hover:bg-gray-500"
           onClick={() => {
-            navigate("/Semester-create");
+            navigate("/semester-create");
           }}
         >
           글쓰기
