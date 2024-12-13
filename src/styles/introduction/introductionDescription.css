@@ -37,8 +37,10 @@
 }
 
 .introduction-description .one-input {
-  margin: 5%;
+  margin: 3.5%;
   margin-right: 0;
+  width: 100%;
+  height: 15%;
 }
 
 .introduction-description .one-input input {
@@ -48,7 +50,7 @@
 .introduction-description .right-content {
   margin: 5%;
   width: 70%;
-  height: 100%;
+  height: 75%;
 }
 
 .introduction-description input {
@@ -56,6 +58,13 @@
   color: white;
   width: 100%;
   padding: 1%;
+}
+
+.introduction-description .file-group {
+  margin: 5%;
+  margin-right: 0;
+  width: 100%;
+  height: 10%;
 }
 
 .button-group {
@@ -73,4 +82,41 @@
   font-size: 1.5rem;
   font-weight: 700;
   color: white;
+}
+
+@media screen and (max-width: 1024px) {
+  .introduction-description .one-card {
+    width: 40%;
+    min-width: 300px;
+  }
+
+  .introduction-description .right-content {
+    width: 60%;
+  }
+
+  .introduction-description .one-input {
+    margin: 5%;
+    margin-left: 0;
+  }
+}
+
+@media screen and (max-height: 768px) {
+  .introduction-description .one-input {
+    margin: 6%;
+    margin-left: 0;
+  }
+
+  .introduction-description .one-card {
+    height: 80%;
+  }
+
+  .introduction-description .right-content {
+    margin: 1%;
+    height: 60%;
+  }
+
+  .introduction-description h1 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5%;
+  }
 }
