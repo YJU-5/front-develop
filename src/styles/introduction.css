@@ -1,36 +1,96 @@
-.wrap-my-content {
+.introduction {
+  overflow: hidden;
+}
+
+.introduction .wrap-my-content {
   display: flex;
   justify-content: center;
-  background-color: white;
-  width: 100%;
-  height: 78vh;
-  margin-top: 5%;
-  margin-bottom: 5%;
+  width: 90%;
+  height: 90vh;
+  margin-left: auto;
+  margin-right: auto;
   padding: 0;
   color: black;
   box-sizing: border-box;
+  transition: 0.2s cubic-bezier(0.3, 0, 0, 0.3);
 }
 
-.one-card {
-  background-color: whitesmoke;
+.introduction .one-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 30%;
   height: 100%;
+  background-size: cover;
+  background-position: center;
+  transition: 0.2s cubic-bezier(0.3, 0, 0, 0.3);
 }
 
-.card-container {
-  display: flex;
-  flex-wrap: wrap; /* 줄바꿈을 허용 */
-  justify-content: center;
-  gap: 16px; /* 카드 간격 */
-}
-
-.card {
-  flex: 1 1 calc(100% / 5 - 16px); /* 최대 5개까지 너비 조정 */
-  max-width: calc(100% / 5 - 16px);
-  min-width: 150px; /* 최소 너비 설정 */
-  background-color: #f3f3f3;
-  padding: 16px;
+.one-card .content {
+  width: 100%;
+  height: 30%;
   text-align: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease; /* 부드러운 크기 전환 */
+  align-content: center;
+}
+
+.one-card:hover {
+  transform: scale(1.05);
+  z-index: 1;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  transition: 0.2s cubic-bezier(0.3, 0, 0, 0.3);
+}
+
+.one-card:hover .overlay {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  backdrop-filter: blur(1.5px);
+  transition: 0.2s cubic-bezier(0.3, 0, 0, 0.3);
+}
+
+.one-card:hover .content {
+  background-color: rgba(255, 255, 255, 0.75);
+  transition: 0.2s cubic-bezier(0.3, 0, 0, 0.3);
+}
+
+.one-card:hover .content p,
+.one-card:hover .content h2 {
+  opacity: 1;
+}
+
+.one-card .content .member-name {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #000;
+  opacity: 0;
+}
+
+.one-card .content .member-age {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #000;
+  opacity: 0;
+}
+
+.one-card .content .member-major {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #000;
+  opacity: 0;
+}
+
+.one-card .content .member-content {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #000;
+  opacity: 0;
+}
+
+.button-group .add-button {
+  position: fixed;
+  top: 90%;
+  left: 90%;
+  z-index: 10;
 }

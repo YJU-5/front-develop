@@ -1,0 +1,76 @@
+.introduction-description {
+  overflow: hidden;
+}
+
+.introduction-description .wrap-my-content-description {
+  display: flex;
+  width: 90%;
+  height: 90vh;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1%;
+  color: black;
+  box-sizing: border-box;
+}
+
+.introduction-description .one-card {
+  width: 30%;
+  min-width: 400px;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+}
+
+.introduction-description .preview {
+  color: black;
+  font-size: 2rem;
+  text-shadow: 1px 1px 3px #f0f3fa;
+  text-align: end;
+  padding: 1%;
+  padding-right: 3%;
+}
+
+.introduction-description h1 {
+  font-size: 1.6rem;
+  color: white;
+  margin-bottom: 1%;
+}
+
+.introduction-description .one-input {
+  margin: 5%;
+  margin-right: 0;
+}
+
+.introduction-description .one-input input {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.introduction-description .right-content {
+  margin: 5%;
+  width: 70%;
+  height: 100%;
+}
+
+.introduction-description input {
+  font-size: 1.4rem;
+  color: white;
+  width: 100%;
+  padding: 1%;
+}
+
+.button-group {
+  text-align: end;
+  float: right;
+  width: 100%;
+}
+
+.button-group button {
+  color: #f0f3fa;
+  margin-left: 1%;
+}
+
+.introduction-description p {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+}
