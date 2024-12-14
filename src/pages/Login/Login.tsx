@@ -5,10 +5,11 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
   const navigate = useNavigate();
   const [users, setUsers] = useState({
-    email: "",
+    email: "",  
     password: "",
   });
 
+  // email,password입력력
   const onchange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -18,6 +19,7 @@ const Login = () => {
     });
   };
 
+    // 로그인 버튼의 type="submit"을 누르면  
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!users.email || !users.password) {
@@ -33,12 +35,14 @@ const Login = () => {
       },
       body: JSON.stringify(users),
     });
-
+    //로그인을 성공하면
     if (response.ok) {
-      const data = await response.json();
+      //response를 joson형태로 바꾸고 그안에있는 access_token을 로컬스토리지로 보낸다.
+      const data = await response.json(); 
       console.log("로그인 성공");
       console.log(data.access_token);
       localStorage.setItem("access_token", data.access_token);
+      // 받은 토큰을 디코딩해서 Token에 저장 그리고 키값을 user로 저장
       const Token: any = jwtDecode(data.access_token);
       console.log(Token);
       localStorage.setItem("user", Token);

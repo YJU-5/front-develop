@@ -20,10 +20,10 @@ const Semester_create = () => {
   });
 
   useEffect(() => {
-    const usertoken: any = localStorage.getItem("access_token");
-    const user = jwtDecode(usertoken);
-    setUser(user);
-    setToken(usertoken);
+    const usertoken: any = localStorage.getItem("access_token"); //로컬스토리지에 있는 access_token을 usertoken에 저장장
+    const user = jwtDecode(usertoken); //받은 토큰 디코딩
+    setUser(user);  //유저정보 저장
+    setToken(usertoken); //토큰 저장
   }, []);
 
 
@@ -61,7 +61,7 @@ const Semester_create = () => {
   const onClickimgDelete = (file: File) => {
     setData((prevData) => ({
       ...prevData,
-      imageUrl: prevData.imageUrl.filter((item) => item !== file),
+      imageUrl: prevData.imageUrl.filter((item) => item !== file),  //data안에서 imageUrl라는 키값에 있는 value를 fillter로 있는지 없는지 검사.
     }));
   };
 

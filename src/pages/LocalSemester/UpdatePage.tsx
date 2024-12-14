@@ -2,10 +2,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Semester } from "./LocalSemester";
 import { useEffect, useState } from "react";
 
-export interface User {
-  id: string;
-  name: string;
-}
 
 const Update_Page = () => {
   const navigate = useNavigate();
@@ -63,7 +59,7 @@ const Update_Page = () => {
     if (Files) {
       setData((prevData) => ({
         ...prevData,
-        newFile: Array.from(Files),
+        newFile: Array.from(Files),  //배열로 바꿔서 넣겠다
       }));
     }
   };
@@ -171,7 +167,7 @@ const Update_Page = () => {
                   <img
                     src={file}
                     className="object-contain max-w-full rounded-md max-h-40"
-                    onClick={() => onClickimgDelete(file, "url")}
+                    onClick={() => onClickimgDelete(file, "url")} //백엔드에서 s3에서 url로 변환해서 지금형태는 url
                   />
                 </div>
               );
@@ -186,7 +182,7 @@ const Update_Page = () => {
                     <img
                       src={imageUrl}
                       className="object-contain max-w-full rounded-md max-h-40"
-                      onClick={() => onClickimgDelete(file, "file")}
+                      onClick={() => onClickimgDelete(file, "file")}  //새로 업로드할 이미지여서 file형태임임
                     />
                   </div>
                 );

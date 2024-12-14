@@ -5,19 +5,21 @@ const Sign_up = () => {
   const navigate = useNavigate();
 
   const [formdata, setformdata] = useState({
-    name: "",
-    email: "",
-    password: "",
+    name: "", //유저 닉네임
+    email: "", //이메일
+    password: "", //비번번
   });
 
+  // name,email,password 입력
   const onchange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const name = e.target.name;
-    const value = e.target.value;
+    const name = e.target.name; //태그의 name의 값 ex)name=email    
+    const value = e.target.value; //태그의 입력 값 ex)email의 값값
     setformdata({ ...formdata, [name]: value });
   };
 
+  // 회원가입 버튼의 type="submit"을 누르면 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault(); //새로고침 방지
 
     if (!formdata.name || !formdata.email || !formdata.password) {
       alert("잘 확인해 주세요");
@@ -107,8 +109,7 @@ const Sign_up = () => {
               </div>
               <button
                 type="submit"
-                className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-              >
+                className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
                 회원가입
               </button>
             </form>
