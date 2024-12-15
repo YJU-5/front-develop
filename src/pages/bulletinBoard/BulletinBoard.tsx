@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
 
 const BulletinBoard = () => {
   const navigate = useNavigate();
-  const [posts, setPosts] = useState<any[]>([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const limit = 10;
+  const [posts, setPosts] = useState<any[]>([]); // 게시글 state관리
+  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 state관리, 기본값 1
+  const [totalPages, setTotalPages] = useState(1); // 전체 페이지 state관리, 기본값 1
+  const limit = 10; // 한 페이지 최대 게시물 수
 
   //fetch로 post들을 가져옴
   useEffect(() => {
@@ -19,7 +18,7 @@ const BulletinBoard = () => {
       // posts를 updatedAt 기준으로 정렬
       const sortedPosts = data.items.sort((a: any, b: any) => {
         return (
-          new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+          new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime() 
         );
       });
       setPosts(sortedPosts);
@@ -39,15 +38,10 @@ const BulletinBoard = () => {
   };
 
   // 페이지 변경 핸들러, 페이지네이션 바에 사용됨
-  const handlePageChange = (newPage: number) => {
-    if (newPage > 0 && newPage <= totalPages) {
-      setCurrentPage(newPage);
+  const handlePageChange = (newPage: number) => { 
+    if (newPage > 0 && newPage <= totalPages) { // 변경하게 되는 페이지가 0보다 크고 전체 페이지 수보다 작거나 같을 때
+      setCurrentPage(newPage); // 현재 페이지를 변경하게 되는 페이지로 변경
     }
-  };
-
-  // 네비 바 버튼 핸들러
-  const handleNavigation = (path: string) => {
-    navigate(path);
   };
 
   return (
@@ -72,7 +66,7 @@ const BulletinBoard = () => {
           >
             <span className="font-semibold">{post.title}</span>
             <span className="text-sm text-gray-500">
-              {new Date(post.updatedAt).toLocaleString()}
+              {new Date(post.updatedAt).toLocaleString()} {/* 업데이트 시간 기준으로 적혀있음 */}
             </span>
           </div>
         ))}
@@ -93,13 +87,13 @@ const BulletinBoard = () => {
           {/* 페이지 수 */}
           {Array.from({ length: totalPages }, (_, index) => index + 1).map(
             (
-              page // 이 코드의 정확한 동작을 알고 싶고, 좀 더 쉬운 형태로 바꿔보자
+              page 
             ) => (
               <button
                 key={page} // map이니까 key있음
                 onClick={() => handlePageChange(page)} // 목록의 각 Post 박스 중 하나 선택했을 때
                 className={`px-3 py-1 rounded-md ${
-                  page === currentPage // ex. 1페이지일 때, 1페이지 버튼은 파랑, 나머지는 하양
+                  page === currentPage // ex. 현재 페이지가 1페이지일 때, 1페이지 버튼은 파랑, 나머지는 하양
                     ? "bg-blue-600 text-white"
                     : "bg-gray-200 text-gray-600 hover:bg-gray-300"
                 }`}
