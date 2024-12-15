@@ -2,42 +2,48 @@ import { useNavigate, useParams } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 
 // 인터페이스 정의
-interface commentState {
-  id: string;
-  content: string;
-  createdAt?: string;
-  updatedAt?: string;
+interface commentState { // 댓글 인터페이스
+  id: string; // 댓글 id
+  content: string; // 댓글 내용
+  createdAt?: string; // 댓글 작성시간
+  updatedAt?: string; // 댓글 수정시간
 }
 
-interface postState {
-  id: string;
-  title: string;
-  content: string;
+interface postState { // 게시글 인터페이스
+  id: string; // 게시글 id
+  title: string; // 게시글 제목
+  content: string; // 게시글 내용
   imageUrl: string[]; // 기존 이미지 파일 URL
   newImageUrl: string[]; //새로 추가된 이미지 파일 URL
-  comments: commentState[];
+  comments: commentState[]; // 해당 게시글의 댓글
 }
 
 const DetailedPost = () => {
   const navigate = useNavigate();
   const { id } = useParams(); // URL에서 ID추출
+  // 게시글 state관리
   const [postData, setPostData] = useState<postState>({
-    id: "",
-    title: "",
-    content: "",
-    imageUrl: [],
-    newImageUrl: [],
-    comments: [],
+    id: "", // 게시글 id, str
+    title: "", // 게시글 제목, str
+    content: "", // 게시글 내용, str
+    imageUrl: [], // 게시글의 기존 이미지, 여러 개를 담아야 하기 때문에 배열
+    newImageUrl: [], // 게시글에 새로 추가된 이미지, 여러 개를 담아야 하기 때문에 배열
+    comments: [], // 해당 게시글의 댓글, 여러 개를 담아야 하기 때문에 배열, 읽기를 위해서 필요
   });
+  // 댓글 state관리, 추가, 수정, 삭제를 위해서 필요
   const [commentData, setCommentData] = useState<commentState>({
-    id: "",
-    content: "",
+    id: "", /* 댓글 id */
+    content: "", /* 댓글 내용 */
   });
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(false); // 글 수정 상태 관리, 이걸로 수정할 때와 아닐 때의 화면을 다르게 띄울 수 있음
   const [isEditingCommentId, setIsEditingCommentId] = useState<string | null>(
     null
-  ); // 댓글 수정 상태 관리
+  ); // 댓글 수정 상태 관리, 이걸로 수정할 때와 아닐 때의 화면을 다르게 띄울 수 있음
 
+
+
+  
+  
   // 게시글&댓글 READ
   useEffect(() => {
     const fetchData = async () => {
@@ -105,9 +111,8 @@ const DetailedPost = () => {
       method: "PATCH",
       body: formdata,
     })
-      .then((r) => {
-        if (r.ok) {
-          console.log(r);
+      .then((request) => { 
+        if (request.ok) {
           setIsEditing(false); // edit모드에서 나가기
           alert("Post updated successfully!");
         }
@@ -123,8 +128,8 @@ const DetailedPost = () => {
     fetch(`http://localhost:3001/board/${id}`, {
       method: "DELETE",
     })
-      .then((r) => {
-        if (r.ok) {
+      .then((request) => { 
+        if (request.ok) {
           alert("Post deleted successfully!");
         }
       })
@@ -133,6 +138,10 @@ const DetailedPost = () => {
       });
   };
 
+
+
+
+  
   // 댓글 관련 메서드, json타입
   // onChange(댓글 관련 메서드)
   const onChangeCommentContent = (
@@ -157,8 +166,8 @@ const DetailedPost = () => {
       },
       body: JSON.stringify(payload), // payload를 JSON string으로 변환
     })
-      .then((r) => {
-        if (r.ok) {
+      .then((request) => { 
+        if (request.ok) {
           alert("Comment uploaded successfully!");
         }
       })
@@ -178,10 +187,10 @@ const DetailedPost = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(payload),
+      body: JSON.stringify(payload), // payload를 JSON string으로 변환
     })
-      .then((r) => {
-        if (r.ok) {
+      .then((request) => {
+        if (request.ok) {
           alert("Comment updated successfully!");
           return fetch(`http://localhost:3001/board/${id}`);
         }
@@ -193,38 +202,16 @@ const DetailedPost = () => {
       });
   };
 
-  // const onClickCommentUPDATE = () => {
-  //   const payload = {
-  //     content: commentData.content,
-  //   };
-
-  //   fetch(`http://localhost:3001/comment/${id}`,{
-  //     method:'PATCH',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify(payload), // payload를 JSON string으로 변환
-  //   })
-  //   .then((r)=>{
-  //     if(r.ok){
-  //       alert("Post uploaded successfully!");
-  //     }
-  //     //여기서 새 댓글을 초기화시켜야 하나?
-  //   })
-  //   .then(()=>{
-  //     navigate('/bulletinBoard/:id')
-  //   })
-  // }
 
   // 댓글 DELETE
   const onClickCommentDELETE = (commentId: string) => {
-    if (!window.confirm("Are you sure you want to delete this comment?"))
-      return;
+    if (!window.confirm("Are you sure you want to delete this comment?")) // 진짜 삭제할건지 사용자에게 확인 받기
+      return; // 사용자가 삭제를 취소했을 때, 뒤의 fetch함수가 동작하지 않도록 막아줌
 
     fetch(`http://localhost:3001/comment/${commentId}`, {
       method: "DELETE",
     })
-      .then((r) => {
+      .then((r) => { // request
         if (r.ok) {
           alert("Comment deleted successfully!");
           return fetch(`http://localhost:3001/board/${id}`);
@@ -236,21 +223,6 @@ const DetailedPost = () => {
       });
   };
 
-  // const onClickCommentDELETE = () => {
-  //   if (!window.confirm("Are you sure you want to delete this comment?")) return; // 진짜 삭제할건지 사용자에게 확인 받기
-  //   fetch(`http://localhost:3001/comment/${id}`, {
-  //     method: "DELETE",
-  //   })
-  //   .then((r)=>{
-  //     if(r.ok){
-  //       alert("Comment deleted successfully!");
-  //     }
-  //   })
-  //   .then(()=>{
-  //     navigate('/bulletinBoard/:id')
-  //   })
-  // }
-
   return (
     <>
       <div className="max-w-4xl p-4 mx-auto">
@@ -261,19 +233,19 @@ const DetailedPost = () => {
               type="text"
               value={postData.title}
               onChange={onChangePostTitle}
-              className="w-full p-2 border border-gray-300 rounded-md"
-              placeholder="Edit Title"
+              className="w-full p-2 text-black border-gray-300 rounded-md" /* 색깔 변경 */
+              placeholder="제목 수정" /* 이름 변경 */
             />
             <textarea
               value={postData.content}
               onChange={onChangePostContent}
-              className="w-full p-2 border border-gray-300 rounded-md"
+              className="w-full p-2 text-black border-gray-300 rounded-md" /* 색깔 변경 */
               rows={4}
-              placeholder="Edit Content"
+              placeholder="내용 수정" /* 이름 변경 */
             />
             <div className="mb-6">
-              <label className="block mb-2 text-lg font-bold text-gray-700">
-                Attach File
+              <label className="block mb-2 text-lg font-bold text-lightgray-700"> {/* 색깔 변경 */}
+                파일 첨부
               </label>
               <input
                 type="file"
@@ -348,7 +320,7 @@ const DetailedPost = () => {
                   value={commentData.content}
                   onChange={onChangeCommentContent}
                   placeholder="댓글을 작성해주세요..."
-                  className="w-full p-2 border border-gray-300 rounded-md"
+                  className="w-full p-2 text-black border border-gray-300 rounded-md"
                   rows={4}
                 />
                 <button
@@ -359,33 +331,14 @@ const DetailedPost = () => {
                 </button>
               </form>
               <ul className="mt-4 space-y-2">
-                {/* {postData.comments
-                  .slice() // 원본 배열을 복사하여 원본 데이터가 변경되지 않도록 함
-                    .sort((a, b) => { // createdAt을 기준으로 내림차순 정렬
-                    const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;  // createdAt의 값이 undefined일 가능성이 있어서 이렇게 기본값을 세팅해줌
-                    const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
-                    return dateB - dateA;
-                  })
-                  .map((comment, index) => (
-                    <li key={index} className="p-2 border border-gray-300 rounded-md">
-                      <p>{comment.content}</p>
-                      {comment.createdAt ? (
-                        <span className="text-sm text-gray-500">
-                        Created at: {new Date(comment.createdAt).toLocaleString()}
-                      </span>
-                    ) : (
-                      <span className="text-sm text-gray-500">Date not available</span>
-                    )}
-                    </li>
-                  ))} */}
                 {postData.comments
-                  .slice()
-                  .sort((a, b) => {
-                    const dateA = a.createdAt
-                      ? new Date(a.createdAt).getTime()
+                  .slice() // 원본 배열을 복사하여 원본 데이터가 변경되지 않도록 함
+                  .sort((a, b) => { // createdAt을 기준으로 내림차순 정렬
+                    const dateA = a.updatedAt
+                      ? new Date(a.updatedAt).getTime() // createdAt의 값이 undefined일 가능성이 있어서 이렇게 기본값을 세팅해줌
                       : 0;
-                    const dateB = b.createdAt
-                      ? new Date(b.createdAt).getTime()
+                    const dateB = b.updatedAt
+                      ? new Date(b.updatedAt).getTime()
                       : 0;
                     return dateB - dateA;
                   })
@@ -394,10 +347,11 @@ const DetailedPost = () => {
                       key={index}
                       className="p-2 border border-gray-300 rounded-md"
                     >
+                      {/* 댓글 수정 */}
                       {isEditingCommentId === comment.id ? (
                         <>
                           <textarea
-                            className="w-full p-2 border border-gray-300 rounded-md"
+                            className="w-full p-2 text-black border-gray-300 rounded-md text-" /* 색깔 변경 */
                             value={commentData.content}
                             onChange={(e) =>
                               setCommentData({
@@ -422,10 +376,10 @@ const DetailedPost = () => {
                       ) : (
                         <>
                           <p>{comment.content}</p>
-                          {comment.createdAt && (
+                          {comment.updatedAt && (
                             <span className="text-sm text-gray-500">
-                              Created at:{" "}
-                              {new Date(comment.createdAt).toLocaleString()}
+                              Updated at:{" "}
+                              {new Date(comment.updatedAt).toLocaleString()}
                             </span>
                           )}
                           <div className="flex mt-2 space-x-2">
@@ -439,13 +393,13 @@ const DetailedPost = () => {
                               }}
                               className="px-2 py-1 text-white bg-yellow-600 rounded-md hover:bg-yellow-700"
                             >
-                              Edit
+                              수정
                             </button>
                             <button
                               onClick={() => onClickCommentDELETE(comment.id)}
                               className="px-2 py-1 text-white bg-red-600 rounded-md hover:bg-red-700"
                             >
-                              Delete
+                              삭제
                             </button>
                           </div>
                         </>
