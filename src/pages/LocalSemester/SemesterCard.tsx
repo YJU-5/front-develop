@@ -2,7 +2,7 @@ import { Semester } from "./LocalSemester";
 import { useNavigate } from "react-router-dom";
 
 interface SemesterCardProps {
-  data: Semester;
+  data: Semester; //LocalSemester에서 받아온 interface Semester의 기본 타입들
 }
 
 const Semester_card: React.FC<SemesterCardProps> = ({ data }) => {
@@ -13,7 +13,7 @@ const Semester_card: React.FC<SemesterCardProps> = ({ data }) => {
       <a>
         <img
           className="object-cover w-full h-48 rounded-t-lg"
-          src={data.imageUrl[0]}
+          src={data.imageUrl[0]} //사진들중에서 0번째사진만 보여준다.
           alt="Semester Image"
         />
       </a>

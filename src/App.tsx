@@ -4,6 +4,7 @@ import {
   Routes,
   Route,
   Navigate,
+  useNavigate,
 } from "react-router-dom";
 import BulletinBoard from "./pages/bulletinBoard/BulletinBoard";
 import Introduction from "./pages/introduction/Introduction";

@@ -7,15 +7,16 @@ const Detailed_Page = () => {
   const location = useLocation();
   const id = location.state.id;
   const [data, setData] = useState<Semester>({
-    id: "",
-    title: "",
-    content: "",
-    imageUrl: [],
-    newFile: [],
-    createdAt: "",
-    user: { id: "", name: "" },
+    id: "", //글의 id
+    title: "", //글의 title
+    content: "", // 글의 content
+    imageUrl: [], //기존 이미지
+    newFile: [], //새로운 이미지
+    createdAt: "", //생성날짜
+    user: { id: "", name: "" }, //글을쓴 유저의 id,name
   });
 
+  //상세보기클릭시 id를 받아와서 id가 변경될때마다 다른페이지를 보여준다다
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(
@@ -26,20 +27,22 @@ const Detailed_Page = () => {
           //   "Content-Type": "application/json",}
         }
       );
-      const data = await response.json();
+      const data = await response.json(); // response를 json형태로 변환환
       setData(data);
     };
     fetchData();
   }, [id]);
 
+  //updata-page로 이동
   function onClickupdate() {
     navigate("/update-page", { state: { id: data.id } });
   }
 
+  //글삭제
   function onClickDelete() {
     fetch("http://localhost:3001/local-semester/" + id, {
       method: "Delete",
-    }).then((r) => {
+    }).then((response) => {
       navigate("/local-semester");
     });
   }

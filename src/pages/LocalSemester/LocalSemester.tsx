@@ -5,37 +5,33 @@ import Semester_card from "./SemesterCard";
 import { useEffect, useState } from "react";
 
 export interface Semester {
-  id: string;
-  title: string;
-  content: string;
-  imageUrl: string[];
-  newFile?: File[];
-  createdAt: string;
+  id: string; //글의 id
+  title: string; //글의 title
+  content: string; // 글의 content
+  imageUrl: string[]; //기존 이미지
+  newFile?: File[]; //새로운 이미지
+  createdAt: string; //생성날짜
   user?: {
     id: string;
     name: string;
-  };
+  };  //글을쓴 유저의 id,name
 }
 
 const LocalSemester = () => {
   const navigate = useNavigate();
-  const [data, setData] = useState<Semester[]>([]);
+  const [data, setData] = useState<Semester[]>([]); //현지학기제 글 전체 받아서 저장
 
+  //페이지가 실행될때 1번만 글을 가지고와서 setData에 저장장
   useEffect(() => {
     fetch("http://localhost:3001/local-semester", {
       method: "GET",
       // headers: {
       //   "Content-Type": "application/json",}
     })
-      .then((r) => r.json()) // response
-      .then((d) => {
+      .then((response) => response.json()) // response를 json형태로 변환환
+      .then((response) => {
         // data
-        setData(d);
-        // 내림차순 정렬 (최신 날짜가 첫 번째에 위치)
-        data.sort(
-          (a, b) =>
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        );
+        setData(response);
       });
   }, []);
 

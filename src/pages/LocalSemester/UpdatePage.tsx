@@ -2,13 +2,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Semester } from "./LocalSemester";
 import { useEffect, useState } from "react";
 
-export interface User {
-  id: string;
-  name: string;
-}
 
 const Update_Page = () => {
   const navigate = useNavigate();
+  //navigate로 보내준 state.id를 받아 const id에 저장장
   const location = useLocation();
   const id = location.state.id;
   const [data, setData] = useState<Semester>({
@@ -21,6 +18,7 @@ const Update_Page = () => {
     user: { id: "", name: "" },
   });
 
+  //id로 정보를 가져와서 data에 저장장
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(
@@ -37,6 +35,7 @@ const Update_Page = () => {
     fetchData();
   }, [id]);
 
+  //title변경될때마다 수정
   const onChangetitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     const title = e.target.value;
     setData((prevData) => ({
@@ -45,6 +44,7 @@ const Update_Page = () => {
     }));
   };
 
+  //content변경될때마다 수정
   const onChangetext = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const content = e.target.value;
     setData((prevData) => ({
@@ -53,25 +53,28 @@ const Update_Page = () => {
     }));
   };
 
+
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const Files = e.target.files;
     if (Files) {
       setData((prevData) => ({
         ...prevData,
-        newFile: Array.from(Files),
+        newFile: Array.from(Files),  //배열로 바꿔서 넣겠다
       }));
     }
   };
 
-  console.log(data);
 
+  //이미지 클릭시 삭제
   const onClickimgDelete = (file: string | File, type: "url" | "file") => {
     setData((prevData) => ({
       ...prevData,
-      imageUrl:
+      //내가 클릭한 기존 이미지를를 data.imageUrl에서 filter로 삭제
+      imageUrl:   
         type === "url"
           ? prevData.imageUrl.filter((url) => url !== file)
           : prevData.imageUrl,
+      //내가 클릭한 새로운 이미지를  data.imageUrl에서 filter로 삭제
       newFile:
         type === "file"
           ? prevData.newFile?.filter((f) => f !== file)
@@ -79,8 +82,10 @@ const Update_Page = () => {
     }));
   };
 
+  //db로 보내기기
   const onClickPATCH = () => {
     const formdata = new FormData();
+    //title,constne가 있으면 formdata에 추가가
     if (data.title && data.content) {
       formdata.append("title", data.title);
       formdata.append("content", data.content);
@@ -88,13 +93,13 @@ const Update_Page = () => {
       console.log("값이 없어요");
     }
 
-    // 기존 url
+    // 기존 url  이미지가2개이상이면 한번에 담을수 없어서 forEach문으로 하나씩 저장
     if (data.imageUrl) {
       data.imageUrl.forEach((file) => {
         formdata.append("existingImageUrls", file);
       });
     }
-    // 새파일
+    // 새파일 이미지가2개이상이면 한번에 담을수 없어서 forEach문으로 하나씩 저장
     if (data.newFile) {
       data.newFile.forEach((file) => {
         formdata.append("imageUrl", file);
@@ -162,7 +167,7 @@ const Update_Page = () => {
                   <img
                     src={file}
                     className="object-contain max-w-full rounded-md max-h-40"
-                    onClick={() => onClickimgDelete(file, "url")}
+                    onClick={() => onClickimgDelete(file, "url")} //백엔드에서 s3에서 url로 변환해서 지금형태는 url
                   />
                 </div>
               );
@@ -170,13 +175,14 @@ const Update_Page = () => {
 
             {data.newFile && data.newFile.length > 0 ? (
               data.newFile.map((file, index) => {
+                //화면에 보일수있도록 변경하여 imageUrl에 저장
                 const imageUrl = URL.createObjectURL(file);
                 return (
                   <div className="flex justify-center" key={index}>
                     <img
                       src={imageUrl}
                       className="object-contain max-w-full rounded-md max-h-40"
-                      onClick={() => onClickimgDelete(file, "file")}
+                      onClick={() => onClickimgDelete(file, "file")}  //새로 업로드할 이미지여서 file형태임임
                     />
                   </div>
                 );

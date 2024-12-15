@@ -11,6 +11,7 @@ const Login = () => {
     password: "",
   });
 
+  // email,password입력력
   const onchange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -20,6 +21,7 @@ const Login = () => {
     });
   };
 
+  // 로그인 버튼의 type="submit"을 누르면
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!users.email || !users.password) {
@@ -98,15 +100,7 @@ const Login = () => {
                   onChange={onchange}
                 />
               </div>
-              <div className="flex items-center justify-between">
-                <div className="flex items-start"></div>
-                <a
-                  href="#"
-                  className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
-                >
-                  비밀번호를 잊으셨나요?
-                </a>
-              </div>
+
               <button
                 type="submit"
                 className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
@@ -114,12 +108,11 @@ const Login = () => {
                 로그인
               </button>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                아직 계정이 없으신가요?{" "}
+                아직 계정이 없으신가요?
                 <a
-                  href="/Sign_up"
+                  href="/sign-up"
                   className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                 >
-                  {" "}
                   가입하세요
                 </a>
               </p>
