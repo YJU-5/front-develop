@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const BulletinBoard = () => {
@@ -18,7 +18,7 @@ const BulletinBoard = () => {
       // posts를 updatedAt 기준으로 정렬
       const sortedPosts = data.items.sort((a: any, b: any) => {
         return (
-          new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime() 
+          new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
         );
       });
       setPosts(sortedPosts);
@@ -38,8 +38,9 @@ const BulletinBoard = () => {
   };
 
   // 페이지 변경 핸들러, 페이지네이션 바에 사용됨
-  const handlePageChange = (newPage: number) => { 
-    if (newPage > 0 && newPage <= totalPages) { // 변경하게 되는 페이지가 0보다 크고 전체 페이지 수보다 작거나 같을 때
+  const handlePageChange = (newPage: number) => {
+    if (newPage > 0 && newPage <= totalPages) {
+      // 변경하게 되는 페이지가 0보다 크고 전체 페이지 수보다 작거나 같을 때
       setCurrentPage(newPage); // 현재 페이지를 변경하게 되는 페이지로 변경
     }
   };
@@ -66,7 +67,8 @@ const BulletinBoard = () => {
           >
             <span className="font-semibold">{post.title}</span>
             <span className="text-sm text-gray-500">
-              {new Date(post.updatedAt).toLocaleString()} {/* 업데이트 시간 기준으로 적혀있음 */}
+              {new Date(post.updatedAt).toLocaleString()}{" "}
+              {/* 업데이트 시간 기준으로 적혀있음 */}
             </span>
           </div>
         ))}
@@ -86,9 +88,7 @@ const BulletinBoard = () => {
 
           {/* 페이지 수 */}
           {Array.from({ length: totalPages }, (_, index) => index + 1).map(
-            (
-              page 
-            ) => (
+            (page) => (
               <button
                 key={page} // map이니까 key있음
                 onClick={() => handlePageChange(page)} // 목록의 각 Post 박스 중 하나 선택했을 때

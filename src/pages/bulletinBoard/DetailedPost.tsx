@@ -1,15 +1,17 @@
 import { useNavigate, useParams } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 // 인터페이스 정의
-interface commentState { // 댓글 인터페이스
+interface commentState {
+  // 댓글 인터페이스
   id: string; // 댓글 id
   content: string; // 댓글 내용
   createdAt?: string; // 댓글 작성시간
   updatedAt?: string; // 댓글 수정시간
 }
 
-interface postState { // 게시글 인터페이스
+interface postState {
+  // 게시글 인터페이스
   id: string; // 게시글 id
   title: string; // 게시글 제목
   content: string; // 게시글 내용
@@ -32,18 +34,14 @@ const DetailedPost = () => {
   });
   // 댓글 state관리, 추가, 수정, 삭제를 위해서 필요
   const [commentData, setCommentData] = useState<commentState>({
-    id: "", /* 댓글 id */
-    content: "", /* 댓글 내용 */
+    id: "" /* 댓글 id */,
+    content: "" /* 댓글 내용 */,
   });
   const [isEditing, setIsEditing] = useState(false); // 글 수정 상태 관리, 이걸로 수정할 때와 아닐 때의 화면을 다르게 띄울 수 있음
   const [isEditingCommentId, setIsEditingCommentId] = useState<string | null>(
     null
   ); // 댓글 수정 상태 관리, 이걸로 수정할 때와 아닐 때의 화면을 다르게 띄울 수 있음
 
-
-
-  
-  
   // 게시글&댓글 READ
   useEffect(() => {
     const fetchData = async () => {
@@ -52,15 +50,11 @@ const DetailedPost = () => {
       });
       // response.json()은 Promise를 반환하므로 await를 사용하여 값을 추출
       const data = await response.json();
-      setPostData(data); 
+      setPostData(data);
     };
     fetchData();
   }, [id]); // 게시글의 id가 변경될 때마다 리렌더링
 
-  
-
-  
-  
   // onChange(게시글 관련 메서드)
   //e: React.ChangeEvent<HTMLInputElement>를 통해 e가 반드시 <input> 요소에서 발생한 ChangeEvent임을 명시
   const onChangePostTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -89,8 +83,6 @@ const DetailedPost = () => {
     }
   };
 
-
-  
   // onClick(게시글 관련 메서드)
   // 게시글 이미지 DELETE
   const onClickImgDELETE = (file: string | File, type: "url" | "file") => {
@@ -106,11 +98,11 @@ const DetailedPost = () => {
           : prevData.newFile,
     }));
   };
-  
+
   // 게시글 UPDATE
   const onClickPostUPDATE = () => {
     const formdata = new FormData();
-    // 타입스크립트이기 때문에 postData에 값이 없을 때도 정의해줘야함 
+    // 타입스크립트이기 때문에 postData에 값이 없을 때도 정의해줘야함
     if (postData.title && postData.content) {
       formdata.append("title", postData.title);
       formdata.append("content", postData.content);
@@ -123,7 +115,7 @@ const DetailedPost = () => {
         formdata.append("existingImageUrls", file);
       });
     }
-    // 새 이미지파일 
+    // 새 이미지파일
     if (postData.newFile) {
       postData.newFile.forEach((file) => {
         formdata.append("imageUrl", file);
@@ -133,14 +125,14 @@ const DetailedPost = () => {
       method: "PATCH",
       body: formdata,
     })
-      .then((response) => { 
+      .then((response) => {
         if (response.ok) {
           setIsEditing(false); // edit모드에서 나가기
           alert("Post updated successfully!");
         }
       })
       .then(() => {
-         navigate(`/detailed-post/${id}`);
+        navigate(`/detailed-post/${id}`);
       });
   };
 
@@ -150,7 +142,7 @@ const DetailedPost = () => {
     fetch(`http://localhost:3001/board/${id}`, {
       method: "DELETE",
     })
-      .then((response) => { 
+      .then((response) => {
         if (response.ok) {
           alert("Post deleted successfully!");
         }
@@ -160,11 +152,6 @@ const DetailedPost = () => {
       });
   };
 
-
-
-  
-
-  
   // 댓글 관련 메서드, json타입
   // onChange(댓글 관련 메서드)
   const onChangeCommentContent = (
@@ -189,7 +176,7 @@ const DetailedPost = () => {
       },
       body: JSON.stringify(payload), // payload를 JSON string으로 변환
     })
-      .then((response) => { 
+      .then((response) => {
         if (response.ok) {
           alert("Comment uploaded successfully!");
         }
@@ -225,16 +212,16 @@ const DetailedPost = () => {
       });
   };
 
-
   // 댓글 DELETE
   const onClickCommentDELETE = (commentId: string) => {
-    if (!window.confirm("Are you sure you want to delete this comment?")) // 진짜 삭제할건지 사용자에게 확인 받기
+    if (!window.confirm("Are you sure you want to delete this comment?"))
+      // 진짜 삭제할건지 사용자에게 확인 받기
       return; // 사용자가 삭제를 취소했을 때, 뒤의 fetch함수가 동작하지 않도록 막아줌
 
     fetch(`http://localhost:3001/comment/${commentId}`, {
       method: "DELETE",
     })
-      .then((response) => { 
+      .then((response) => {
         if (response.ok) {
           alert("Comment deleted successfully!");
           return fetch(`http://localhost:3001/board/${id}`);
@@ -257,20 +244,20 @@ const DetailedPost = () => {
               type="text"
               value={postData.title}
               onChange={onChangePostTitle}
-              className="w-full p-2 text-black border-gray-300 rounded-md" 
+              className="w-full p-2 text-black border-gray-300 rounded-md"
               placeholder="제목 수정" /* 이름 변경 */
             />
             {/* 내용 */}
             <textarea
               value={postData.content}
               onChange={onChangePostContent}
-              className="w-full p-2 text-black border-gray-300 rounded-md" 
+              className="w-full p-2 text-black border-gray-300 rounded-md"
               rows={4}
               placeholder="내용 수정" /* 이름 변경 */
             />
             {/* 이미지 */}
             <div className="mb-6">
-              <label className="block mb-2 text-lg font-bold text-lightgray-700"> 
+              <label className="block mb-2 text-lg font-bold text-lightgray-700">
                 파일 첨부
               </label>
               <input
@@ -377,7 +364,8 @@ const DetailedPost = () => {
               <ul className="mt-4 space-y-2">
                 {postData.comments
                   .slice() // 원본 배열을 복사하여 원본 데이터가 변경되지 않도록 함
-                  .sort((a, b) => { // createdAt을 기준으로 내림차순 정렬
+                  .sort((a, b) => {
+                    // createdAt을 기준으로 내림차순 정렬
                     const dateA = a.updatedAt
                       ? new Date(a.updatedAt).getTime() // createdAt의 값이 undefined일 가능성이 있어서 이렇게 기본값을 세팅해줌
                       : 0;
@@ -395,7 +383,7 @@ const DetailedPost = () => {
                       {isEditingCommentId === comment.id ? (
                         <>
                           <textarea
-                            className="w-full p-2 text-black border-gray-300 rounded-md text-" 
+                            className="w-full p-2 text-black border-gray-300 rounded-md text-"
                             value={commentData.content}
                             onChange={(e) =>
                               setCommentData({

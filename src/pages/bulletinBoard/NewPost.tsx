@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 //인터페이스 정의
@@ -12,13 +12,13 @@ const NewPost = () => {
   const navigate = useNavigate();
   // 글의 데이터 state선언
   const [data, setData] = useState<postState>({
-    title: "",  // 글 제목, str
+    title: "", // 글 제목, str
     content: "", // 글 내용, str
     imageUrl: [], // 글 이미지, 여러 개 담을거라 배열
   });
 
   //e: React.ChangeEvent<HTMLInputElement>를 통해 e가 반드시 <input> 요소에서 발생한 ChangeEvent임을 명시
-  const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => { 
+  const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     const title = e.target.value;
     setData((prevData) => ({
       ...prevData,
@@ -57,16 +57,16 @@ const NewPost = () => {
       body: formdata,
     }).then((response) => {
       if (response.ok) {
-        navigate("/bulletinBoard");
+        navigate("/bulletin-board");
       }
     });
   };
   // FormData 객체 구조:
-    // - title: string
-    // - age: string (숫자를 문자열로 변환)
-    // - major: string
-    // - content: string
-    // - files: File (선택적)
+  // - title: string
+  // - age: string (숫자를 문자열로 변환)
+  // - major: string
+  // - content: string
+  // - files: File (선택적)
 
   return (
     <div className="body">
@@ -112,7 +112,8 @@ const NewPost = () => {
               className="block w-full"
             />
             <div className="grid grid-cols-3 gap-4 mt-4">
-              {data.imageUrl.map((file, index) => { // map함수로 이미지를 전부 띄움
+              {data.imageUrl.map((file, index) => {
+                // map함수로 이미지를 전부 띄움
                 const imageUrl = URL.createObjectURL(file); // 파일 객체 → 브라우저에서 사용 가능한 URL로 변환, file 객체는 브라우저에서 직접 사용해 렌더링할 수 없기 때문에
                 return (
                   <div className="flex justify-center" key={index}>
