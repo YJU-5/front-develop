@@ -1,9 +1,16 @@
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 const Navbar = () => {
+  const { isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
   const handleNavigation = (path: string) => {
     navigate(path);
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
   };
 
   return (

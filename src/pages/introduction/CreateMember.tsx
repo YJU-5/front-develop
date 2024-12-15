@@ -54,8 +54,8 @@ const CreateMember = () => {
     formData.append("age", String(teamMember.age)); // 숫자는 문자열로 변환
     formData.append("major", teamMember.major);
     formData.append("content", teamMember.content);
-    if (selectedFile) {
-      formData.append("files", selectedFile);
+    if (selectedFile !== null) {
+      formData.append("imageUrl", selectedFile);
     }
 
     try {
@@ -118,7 +118,6 @@ const CreateMember = () => {
               type="text"
               name="age"
               placeholder="0"
-              defaultValue={0}
               onKeyDown={getNumberOnly}
               onChange={handleInputChange}
             />

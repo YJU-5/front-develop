@@ -1,9 +1,11 @@
 import { jwtDecode } from "jwt-decode";
 import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [users, setUsers] = useState({
     email: "",
     password: "",
@@ -25,26 +27,26 @@ const Login = () => {
       return;
     }
 
-    const response = await fetch("http://localhost:3001/user/login", {
-      method: "POST",
-      headers: {
-        Accept: "*/*",
-        "Content-Type": "application/JSON",
-      },
-      body: JSON.stringify(users),
-    });
+    try {
+      const response = await fetch("http://localhost:3001/user/login", {
+        method: "POST",
+        headers: {
+          Accept: "*/*",
+          "Content-Type": "application/JSON",
+        },
+        body: JSON.stringify(users),
+      });
 
-    if (response.ok) {
-      const data = await response.json();
-      console.log("로그인 성공");
-      console.log(data.access_token);
-      localStorage.setItem("access_token", data.access_token);
-      const Token: any = jwtDecode(data.access_token);
-      console.log(Token);
-      localStorage.setItem("user", Token);
-      navigate("/");
-    } else {
-      throw new Error("로그인 실패");
+      if (response.ok) {
+        const data = await response.json();
+        const decodedToken: any = jwtDecode(data.access_token);
+        login(data.access_token, decodedToken);
+        navigate("/");
+      } else {
+        throw new Error("로그인 실패");
+      }
+    } catch (error) {
+      alert("로그인에 실패했습니다.");
     }
   };
 

@@ -42,6 +42,12 @@ const IntroductionDescription = () => {
     []
   );
 
+  // 나이 입력 시 숫자만 허용하는 함수
+  const getNumberOnly = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    const input = event.target as HTMLInputElement;
+    input.value = input.value.replace(/[^0-9]/g, "");
+  };
+
   // 파일 업로드 핸들러 (useCallback으로 최적화)
   const handleFileChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -84,8 +90,9 @@ const IntroductionDescription = () => {
       formData.append("major", teamMember.major);
       formData.append("content", teamMember.content);
 
+      // 새 이미지가 선택된 경우에만 이미지 추가
       if (selectedFile !== null) {
-        formData.append("files", selectedFile);
+        formData.append("imageUrl", selectedFile);
       }
 
       const response = await fetch(
@@ -103,6 +110,7 @@ const IntroductionDescription = () => {
       console.log("Error updating data:", error);
     }
     setIsUpdate(false);
+    console.log(teamMember);
   }, [selectedFile, teamMember, teamMemberId]);
 
   // 삭제
@@ -128,13 +136,17 @@ const IntroductionDescription = () => {
   // 백그라운드 이미지
   // state 렌더할 때마다 깜빡거리는 현상을 해결하기 위해 useMemo 사용
   const backgroundImageStyle = useMemo(() => {
-    const url = isUpdate
-      ? selectedFile
-        ? URL.createObjectURL(selectedFile)
-        : teamMember.imageUrl[0]
-      : teamMember.imageUrl;
-    return { backgroundImage: `url("${url}")` };
-  }, [selectedFile, teamMember.imageUrl]);
+    let url;
+    if (isUpdate && selectedFile) {
+      url = URL.createObjectURL(selectedFile);
+    } else if (teamMember.imageUrl && teamMember.imageUrl.length > 0) {
+      url = encodeURI(teamMember.imageUrl[0]);
+    } else {
+      url = "";
+    }
+
+    return url ? { backgroundImage: `url("${url}")` } : {};
+  }, [selectedFile, teamMember.imageUrl, isUpdate]);
 
   return (
     <div className="introduction-description">
@@ -188,6 +200,7 @@ const IntroductionDescription = () => {
                   type="text"
                   name="age"
                   value={teamMember.age}
+                  onKeyDown={getNumberOnly}
                   onChange={handleInputChange}
                 />
                 <p style={{ marginLeft: "2%", fontSize: "1rem" }}>

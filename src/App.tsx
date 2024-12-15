@@ -18,40 +18,91 @@ import Semester_create from "./pages/LocalSemester/SemesterCreate";
 import Detailed_Page from "./pages/LocalSemester/DetailedPage";
 import Update_Page from "./pages/LocalSemester/UpdatePage";
 import Navbar from "./pages/components/Navbar";
-
+import { AuthProvider } from "./pages/contexts/AuthContext";
+import ProtectedRoute from "./pages/contexts/ProtectedRoute";
+import Logout from "./pages/components/Logout";
 function App() {
   return (
     <div className="app">
-      <Router>
-        <h1 className="m-3 text-3xl font-bold">5조 홈페이지</h1>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Navigate to="/introduction" />} />
+      <AuthProvider>
+        <Router>
+          <h1 className="m-3 text-3xl font-bold">5조 홈페이지</h1>
+          <Logout />
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<Navigate to="/introduction" />} />
 
-          {/* 조원 소개 */}
-          <Route path="/introduction" element={<Introduction />} />
-          <Route
-            path="/introduction-description"
-            element={<IntroductionDescription />}
-          ></Route>
-          <Route path="/create-member" element={<CreateMember />} />
+            {/* 조원 소개 */}
+            <Route path="/introduction" element={<Introduction />} />
+            <Route
+              path="/introduction-description"
+              element={
+                <ProtectedRoute>
+                  <IntroductionDescription />
+                </ProtectedRoute>
+              }
+            ></Route>
+            <Route
+              path="/create-member"
+              element={
+                <ProtectedRoute>
+                  <CreateMember />
+                </ProtectedRoute>
+              }
+            />
 
-          {/* 현지 학기 */}
-          <Route path="/local-semester" element={<LocalSemester />} />
-          <Route path="/semester-create" element={<Semester_create />} />
-          <Route path="/detailed-page" element={<Detailed_Page />} />
-          <Route path="/update-page" element={<Update_Page />} />
+            {/* 현지 학기 */}
+            <Route path="/local-semester" element={<LocalSemester />} />
+            <Route
+              path="/semester-create"
+              element={
+                <ProtectedRoute>
+                  <Semester_create />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/detailed-page"
+              element={
+                <ProtectedRoute>
+                  <Detailed_Page />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/update-page"
+              element={
+                <ProtectedRoute>
+                  <Update_Page />
+                </ProtectedRoute>
+              }
+            />
 
-          {/* 로그인 */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/sign-up" element={<Sign_up />} />
+            {/* 로그인 */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/sign-up" element={<Sign_up />} />
 
-          {/* 게시판 */}
-          <Route path="/bulletin-board" element={<BulletinBoard />} />
-          <Route path="/detailed-post/:id" element={<DetailedPost />} />
-          <Route path="/new-post" element={<NewPost />} />
-        </Routes>
-      </Router>
+            {/* 게시판 */}
+            <Route path="/bulletin-board" element={<BulletinBoard />} />
+            <Route
+              path="/detailed-post/:id"
+              element={
+                <ProtectedRoute>
+                  <DetailedPost />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/new-post"
+              element={
+                <ProtectedRoute>
+                  <NewPost />
+                </ProtectedRoute>
+              }
+            />
+          </Routes>
+        </Router>
+      </AuthProvider>
     </div>
   );
 }
