@@ -22,6 +22,7 @@ import Navbar from "./pages/components/Navbar";
 import { AuthProvider } from "./pages/contexts/AuthContext";
 import ProtectedRoute from "./pages/contexts/ProtectedRoute";
 import Logout from "./pages/components/Logout";
+
 function App() {
   return (
     <div className="app">
