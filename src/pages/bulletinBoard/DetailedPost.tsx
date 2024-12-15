@@ -14,7 +14,7 @@ interface postState { // 게시글 인터페이스
   title: string; // 게시글 제목
   content: string; // 게시글 내용
   imageUrl: string[]; // 기존 이미지 파일 URL
-  newImageUrl: string[]; //새로 추가된 이미지 파일 URL
+  newFile: File[]; //새로 추가된 이미지 파일
   comments: commentState[]; // 해당 게시글의 댓글
 }
 
@@ -27,7 +27,7 @@ const DetailedPost = () => {
     title: "", // 게시글 제목, str
     content: "", // 게시글 내용, str
     imageUrl: [], // 게시글의 기존 이미지, 여러 개를 담아야 하기 때문에 배열
-    newImageUrl: [], // 게시글에 새로 추가된 이미지, 여러 개를 담아야 하기 때문에 배열
+    newFile: [], // 게시글에 새로 추가된 이미지, 여러 개를 담아야 하기 때문에 배열
     comments: [], // 해당 게시글의 댓글, 여러 개를 담아야 하기 때문에 배열, 읽기를 위해서 필요
   });
   // 댓글 state관리, 추가, 수정, 삭제를 위해서 필요
@@ -50,15 +50,19 @@ const DetailedPost = () => {
       const response = await fetch(`http://localhost:3001/board/${id}`, {
         method: "GET",
       });
+      // response.json()은 Promise를 반환하므로 await를 사용하여 값을 추출
       const data = await response.json();
-      console.log(data.imageUrl);
-      setPostData(data);
+      setPostData(data); 
     };
     fetchData();
-  }, [id]);
+  }, [id]); // 게시글의 id가 변경될 때마다 리렌더링
 
-  // 게시글 관련 메서드, form타입
+  
+
+  
+  
   // onChange(게시글 관련 메서드)
+  //e: React.ChangeEvent<HTMLInputElement>를 통해 e가 반드시 <input> 요소에서 발생한 ChangeEvent임을 명시
   const onChangePostTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     const title = e.target.value;
     setPostData((prevData) => ({
@@ -75,7 +79,7 @@ const DetailedPost = () => {
     }));
   };
 
-  const onChangePostFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangePostImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files) {
       setPostData((prevData) => ({
@@ -85,10 +89,28 @@ const DetailedPost = () => {
     }
   };
 
+
+  
   // onClick(게시글 관련 메서드)
+  // 게시글 이미지 DELETE
+  const onClickImgDELETE = (file: string | File, type: "url" | "file") => {
+    setPostData((prevData) => ({
+      ...prevData,
+      imageUrl:
+        type === "url"
+          ? prevData.imageUrl.filter((url) => url !== file)
+          : prevData.imageUrl,
+      newFile:
+        type === "file"
+          ? prevData.newFile?.filter((f) => f !== file)
+          : prevData.newFile,
+    }));
+  };
+  
   // 게시글 UPDATE
   const onClickPostUPDATE = () => {
     const formdata = new FormData();
+    // 타입스크립트이기 때문에 postData에 값이 없을 때도 정의해줘야함 
     if (postData.title && postData.content) {
       formdata.append("title", postData.title);
       formdata.append("content", postData.content);
@@ -101,9 +123,9 @@ const DetailedPost = () => {
         formdata.append("existingImageUrls", file);
       });
     }
-    // 새 이미지파일 url
-    if (postData.newImageUrl) {
-      postData.newImageUrl.forEach((file) => {
+    // 새 이미지파일 
+    if (postData.newFile) {
+      postData.newFile.forEach((file) => {
         formdata.append("imageUrl", file);
       });
     }
@@ -111,14 +133,14 @@ const DetailedPost = () => {
       method: "PATCH",
       body: formdata,
     })
-      .then((request) => { 
-        if (request.ok) {
+      .then((response) => { 
+        if (response.ok) {
           setIsEditing(false); // edit모드에서 나가기
           alert("Post updated successfully!");
         }
       })
       .then(() => {
-        navigate(`/detailedPost/${id}`);
+         navigate(`/detailedPost/${id}`);
       });
   };
 
@@ -128,8 +150,8 @@ const DetailedPost = () => {
     fetch(`http://localhost:3001/board/${id}`, {
       method: "DELETE",
     })
-      .then((request) => { 
-        if (request.ok) {
+      .then((response) => { 
+        if (response.ok) {
           alert("Post deleted successfully!");
         }
       })
@@ -140,6 +162,7 @@ const DetailedPost = () => {
 
 
 
+  
 
   
   // 댓글 관련 메서드, json타입
@@ -166,8 +189,8 @@ const DetailedPost = () => {
       },
       body: JSON.stringify(payload), // payload를 JSON string으로 변환
     })
-      .then((request) => { 
-        if (request.ok) {
+      .then((response) => { 
+        if (response.ok) {
           alert("Comment uploaded successfully!");
         }
       })
@@ -189,8 +212,8 @@ const DetailedPost = () => {
       },
       body: JSON.stringify(payload), // payload를 JSON string으로 변환
     })
-      .then((request) => {
-        if (request.ok) {
+      .then((response) => {
+        if (response.ok) {
           alert("Comment updated successfully!");
           return fetch(`http://localhost:3001/board/${id}`);
         }
@@ -211,8 +234,8 @@ const DetailedPost = () => {
     fetch(`http://localhost:3001/comment/${commentId}`, {
       method: "DELETE",
     })
-      .then((r) => { // request
-        if (r.ok) {
+      .then((response) => { 
+        if (response.ok) {
           alert("Comment deleted successfully!");
           return fetch(`http://localhost:3001/board/${id}`);
         }
@@ -229,27 +252,30 @@ const DetailedPost = () => {
         {/* 글 수정 */}
         {isEditing ? (
           <div className="space-y-4">
+            {/* 제목 */}
             <input
               type="text"
               value={postData.title}
               onChange={onChangePostTitle}
-              className="w-full p-2 text-black border-gray-300 rounded-md" /* 색깔 변경 */
+              className="w-full p-2 text-black border-gray-300 rounded-md" 
               placeholder="제목 수정" /* 이름 변경 */
             />
+            {/* 내용 */}
             <textarea
               value={postData.content}
               onChange={onChangePostContent}
-              className="w-full p-2 text-black border-gray-300 rounded-md" /* 색깔 변경 */
+              className="w-full p-2 text-black border-gray-300 rounded-md" 
               rows={4}
               placeholder="내용 수정" /* 이름 변경 */
             />
+            {/* 이미지 */}
             <div className="mb-6">
-              <label className="block mb-2 text-lg font-bold text-lightgray-700"> {/* 색깔 변경 */}
+              <label className="block mb-2 text-lg font-bold text-lightgray-700"> 
                 파일 첨부
               </label>
               <input
                 type="file"
-                onChange={onChangePostFile}
+                onChange={onChangePostImage}
                 multiple
                 className="block w-full"
               />
@@ -263,6 +289,23 @@ const DetailedPost = () => {
                     />
                   </div>
                 ))}
+
+                {postData.newFile && postData.newFile.length > 0 ? (
+                  postData.newFile.map((file, index) => {
+                    const imageUrl = URL.createObjectURL(file);
+                    return (
+                      <div className="flex justify-center" key={index}>
+                        <img
+                          src={imageUrl}
+                          className="object-contain max-w-full rounded-md max-h-40"
+                          onClick={() => onClickImgDELETE(file, "file")}
+                        />
+                      </div>
+                    );
+                  })
+                ) : (
+                  <div></div>
+                )}
               </div>
             </div>
             <button
@@ -330,6 +373,7 @@ const DetailedPost = () => {
                   댓글 등록
                 </button>
               </form>
+              {/* 댓글 목록 */}
               <ul className="mt-4 space-y-2">
                 {postData.comments
                   .slice() // 원본 배열을 복사하여 원본 데이터가 변경되지 않도록 함
@@ -351,7 +395,7 @@ const DetailedPost = () => {
                       {isEditingCommentId === comment.id ? (
                         <>
                           <textarea
-                            className="w-full p-2 text-black border-gray-300 rounded-md text-" /* 색깔 변경 */
+                            className="w-full p-2 text-black border-gray-300 rounded-md text-" 
                             value={commentData.content}
                             onChange={(e) =>
                               setCommentData({
@@ -364,13 +408,13 @@ const DetailedPost = () => {
                             onClick={() => onClickCommentUPDATE(comment.id)}
                             className="px-2 py-1 text-white bg-green-600 rounded-md hover:bg-green-700"
                           >
-                            Save
+                            저장
                           </button>
                           <button
                             onClick={() => setIsEditingCommentId(null)}
                             className="px-2 py-1 text-white bg-gray-600 rounded-md hover:bg-gray-700"
                           >
-                            Cancel
+                            취소
                           </button>
                         </>
                       ) : (
