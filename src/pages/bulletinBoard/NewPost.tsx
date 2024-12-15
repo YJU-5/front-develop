@@ -17,7 +17,8 @@ const NewPost = () => {
     imageUrl: [], // 글 이미지, 여러 개 담을거라 배열
   });
 
-  const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => { //e: React.ChangeEvent<HTMLInputElement>를 통해 e가 반드시 <input> 요소에서 발생한 ChangeEvent임을 명시
+  //e: React.ChangeEvent<HTMLInputElement>를 통해 e가 반드시 <input> 요소에서 발생한 ChangeEvent임을 명시
+  const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => { 
     const title = e.target.value;
     setData((prevData) => ({
       ...prevData,
@@ -35,7 +36,6 @@ const NewPost = () => {
 
   const onChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const Files = e.target.files;
-    console.log(Files);
     if (Files) {
       setData((prevData) => ({
         ...prevData,
@@ -55,8 +55,8 @@ const NewPost = () => {
     fetch("http://localhost:3001/board", {
       method: "POST",
       body: formdata,
-    }).then((request) => {
-      if (request.ok) {
+    }).then((response) => {
+      if (response.ok) {
         navigate("/bulletinBoard");
       }
     });
