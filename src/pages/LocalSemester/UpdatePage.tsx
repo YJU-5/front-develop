@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Semester } from "./LocalSemester";
 import { useEffect, useState } from "react";
 
-const Update_Page = () => {
+const UpdatePage = () => {
   const navigate = useNavigate();
   //navigate로 보내준 state.id를 받아 const id에 저장장
   const location = useLocation();
@@ -221,4 +221,4 @@ const Update_Page = () => {
   );
 };
 
-export default Update_Page;
+export default UpdatePage;

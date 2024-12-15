@@ -1,8 +1,6 @@
-// 현지학기 소개 페이지
-import "../../styles/localsemester.css";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SemesterCard from "./SemesterCard";
-import { useEffect, useState } from "react";
 
 export interface Semester {
   id: string; //글의 id

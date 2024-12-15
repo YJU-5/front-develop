@@ -8,12 +8,12 @@ interface Datastate {
   imageUrl: File[];
 }
 
-const Semester_create = () => {
-  const [token, setToken] = useState<any>(); 
+const SemesterCreate = () => {
+  const [token, setToken] = useState<any>();
   const [user, setUser] = useState<any>("");
   const navigate = useNavigate();
   //내가 작성한 글을 저장
-  const [data, setData] = useState<Datastate>({  
+  const [data, setData] = useState<Datastate>({
     title: "",
     content: "",
     imageUrl: [],
@@ -22,10 +22,9 @@ const Semester_create = () => {
   useEffect(() => {
     const usertoken: any = localStorage.getItem("access_token"); //로컬스토리지에 있는 access_token을 usertoken에 저장장
     const user = jwtDecode(usertoken); //받은 토큰 디코딩
-    setUser(user);  //유저정보 저장
+    setUser(user); //유저정보 저장
     setToken(usertoken); //토큰 저장
   }, []);
-
 
   // 이미지 받아오기기
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -41,14 +40,14 @@ const Semester_create = () => {
   //content 받아오기
   const onChangetext = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const content = e.target.value;
-    setData((prevData) => ({   //prevData는 기존data안에있는 값
+    setData((prevData) => ({
+      //prevData는 기존data안에있는 값
       ...prevData,
       ["content"]: content,
     }));
   };
 
-
-    //title 받아오기
+  //title 받아오기
   const onChangetitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     const title = e.target.value;
     setData((prevData) => ({
@@ -61,10 +60,9 @@ const Semester_create = () => {
   const onClickimgDelete = (file: File) => {
     setData((prevData) => ({
       ...prevData,
-      imageUrl: prevData.imageUrl.filter((item) => item !== file),  //data안에서 imageUrl라는 키값에 있는 value를 fillter로 있는지 없는지 검사.
+      imageUrl: prevData.imageUrl.filter((item) => item !== file), //data안에서 imageUrl라는 키값에 있는 value를 fillter로 있는지 없는지 검사.
     }));
   };
-
 
   //POST
   const onClickPOST = () => {
@@ -178,4 +176,4 @@ const Semester_create = () => {
   );
 };
 
-export default Semester_create;
+export default SemesterCreate;

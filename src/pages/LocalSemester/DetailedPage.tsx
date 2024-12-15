@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Semester } from "./LocalSemester";
 
-const Detailed_Page = () => {
+const DetailedPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const id = location.state.id;
@@ -102,4 +102,4 @@ const Detailed_Page = () => {
   );
 };
 
-export default Detailed_Page;
+export default DetailedPage;

@@ -5,7 +5,7 @@ interface SemesterCardProps {
   data: Semester; //LocalSemester에서 받아온 interface Semester의 기본 타입들
 }
 
-const Semester_card: React.FC<SemesterCardProps> = ({ data }) => {
+const SemesterCard: React.FC<SemesterCardProps> = ({ data }) => {
   const navigate = useNavigate();
 
   return (
@@ -41,4 +41,4 @@ const Semester_card: React.FC<SemesterCardProps> = ({ data }) => {
   );
 };
 
-export default Semester_card;
+export default SemesterCard;
