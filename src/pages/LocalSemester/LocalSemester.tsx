@@ -1,7 +1,7 @@
 // 현지학기 소개 페이지
 import "../../styles/localsemester.css";
 import { useNavigate } from "react-router-dom";
-import Semester_card from "./SemesterCard";
+import SemesterCard from "./SemesterCard";
 import { useEffect, useState } from "react";
 
 export interface Semester {
@@ -14,7 +14,7 @@ export interface Semester {
   user?: {
     id: string;
     name: string;
-  };  //글을쓴 유저의 id,name
+  }; //글을쓴 유저의 id,name
 }
 
 const LocalSemester = () => {
@@ -52,7 +52,7 @@ const LocalSemester = () => {
       <div className="flex flex-wrap items-center justify-center w-full gap-8">
         {data.map((item) => (
           <div key={item.id} className="w-full p-4 sm:w-1/2 md:w-1/3 lg:w-1/4">
-            <Semester_card data={item} />
+            <SemesterCard data={item} />
           </div>
         ))}
       </div>

@@ -56,7 +56,7 @@ const NewPost = () => {
       body: formdata,
     }).then((r) => {
       if (r.ok) {
-        navigate("/bulletinBoard");
+        navigate("/bulletin-board");
       }
     });
   };
@@ -75,7 +75,7 @@ const NewPost = () => {
             <input
               type="text"
               onChange={onChangeTitle}
-              className="w-full max-w-4xl p-3 text-lg border border-gray-300 rounded-md"
+              className="w-full max-w-4xl p-3 text-lg text-black border border-gray-300 rounded-md"
               placeholder="Enter the title"
             />
           </div>
@@ -87,7 +87,7 @@ const NewPost = () => {
             </label>
             <textarea
               onChange={onChangeContent}
-              className="w-full max-w-4xl p-3 text-lg border border-gray-300 rounded-md resize-none"
+              className="w-full max-w-4xl p-3 text-lg text-black border border-gray-300 rounded-md resize-none"
               placeholder="Enter the content"
               rows={10}
             />

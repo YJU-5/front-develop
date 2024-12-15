@@ -2,7 +2,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { Semester } from "./LocalSemester";
 import { useEffect, useState } from "react";
 
-
 const Update_Page = () => {
   const navigate = useNavigate();
   //navigate로 보내준 state.id를 받아 const id에 저장장
@@ -53,24 +52,22 @@ const Update_Page = () => {
     }));
   };
 
-
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const Files = e.target.files;
     if (Files) {
       setData((prevData) => ({
         ...prevData,
-        newFile: Array.from(Files),  //배열로 바꿔서 넣겠다
+        newFile: Array.from(Files), //배열로 바꿔서 넣겠다
       }));
     }
   };
-
 
   //이미지 클릭시 삭제
   const onClickimgDelete = (file: string | File, type: "url" | "file") => {
     setData((prevData) => ({
       ...prevData,
       //내가 클릭한 기존 이미지를를 data.imageUrl에서 filter로 삭제
-      imageUrl:   
+      imageUrl:
         type === "url"
           ? prevData.imageUrl.filter((url) => url !== file)
           : prevData.imageUrl,
@@ -182,7 +179,7 @@ const Update_Page = () => {
                     <img
                       src={imageUrl}
                       className="object-contain max-w-full rounded-md max-h-40"
-                      onClick={() => onClickimgDelete(file, "file")}  //새로 업로드할 이미지여서 file형태임임
+                      onClick={() => onClickimgDelete(file, "file")} //새로 업로드할 이미지여서 file형태임임
                     />
                   </div>
                 );
