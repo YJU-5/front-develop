@@ -3,20 +3,21 @@ import { useNavigate } from "react-router-dom";
 
 //인터페이스 정의
 interface postState {
-  title: string;
-  content: string;
-  imageUrl: File[];
+  title: string; // 글 제목
+  content: string; // 글 내용
+  imageUrl: File[]; // 글 이미지
 }
 
 const NewPost = () => {
   const navigate = useNavigate();
+  // 글의 데이터 state선언
   const [data, setData] = useState<postState>({
-    title: "",
-    content: "",
-    imageUrl: [],
+    title: "",  // 글 제목, str
+    content: "", // 글 내용, str
+    imageUrl: [], // 글 이미지, 여러 개 담을거라 배열
   });
 
-  const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => { //e: React.ChangeEvent<HTMLInputElement>를 통해 e가 반드시 <input> 요소에서 발생한 ChangeEvent임을 명시
     const title = e.target.value;
     setData((prevData) => ({
       ...prevData,
@@ -38,7 +39,7 @@ const NewPost = () => {
     if (Files) {
       setData((prevData) => ({
         ...prevData,
-        imageUrl: Array.from(Files), //Files 는 배열처럼 보이지만 배열이 아니라서 Array.from(Files)이렇게 해준다
+        imageUrl: Array.from(Files), //Files 는 배열처럼 보이지만 배열이 아니라서 Array.from(Files)를 통해 배열로 바꿔줌
       }));
     }
   };
@@ -54,12 +55,18 @@ const NewPost = () => {
     fetch("http://localhost:3001/board", {
       method: "POST",
       body: formdata,
-    }).then((r) => {
-      if (r.ok) {
-        navigate("/bulletin-board");
+    }).then((request) => {
+      if (request.ok) {
+        navigate("/bulletinBoard");
       }
     });
   };
+  // FormData 객체 구조:
+    // - title: string
+    // - age: string (숫자를 문자열로 변환)
+    // - major: string
+    // - content: string
+    // - files: File (선택적)
 
   return (
     <div className="body">
@@ -95,8 +102,8 @@ const NewPost = () => {
 
           {/* 이미지 파일 입력 */}
           <div className="mb-6">
-            <label className="block mb-2 text-lg font-bold text-gray-700">
-              Attach File
+            <label className="block mb-2 text-lg font-bold text-gray">
+              파일 첨부
             </label>
             <input
               type="file"
@@ -105,8 +112,8 @@ const NewPost = () => {
               className="block w-full"
             />
             <div className="grid grid-cols-3 gap-4 mt-4">
-              {data.imageUrl.map((file, index) => {
-                const imageUrl = URL.createObjectURL(file);
+              {data.imageUrl.map((file, index) => { // map함수로 이미지를 전부 띄움
+                const imageUrl = URL.createObjectURL(file); // 파일 객체 → 브라우저에서 사용 가능한 URL로 변환, file 객체는 브라우저에서 직접 사용해 렌더링할 수 없기 때문에
                 return (
                   <div className="flex justify-center" key={index}>
                     <img
@@ -131,7 +138,7 @@ const NewPost = () => {
             </button>
             <button
               type="button"
-              onClick={() => navigate("/bulletinBoard")}
+              onClick={() => navigate("/bulletin-board")}
               className="px-6 py-3 text-lg text-white bg-gray-600 rounded-md hover:bg-gray-700"
             >
               취소
