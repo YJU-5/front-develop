@@ -140,7 +140,7 @@ const DetailedPost = () => {
         }
       })
       .then(() => {
-         navigate(`/detailedPost/${id}`);
+         navigate(`/detailed-post/${id}`);
       });
   };
 
@@ -156,7 +156,7 @@ const DetailedPost = () => {
         }
       })
       .then(() => {
-        navigate("/bulletinBoard");
+        navigate("/bulletin-board");
       });
   };
 
@@ -195,7 +195,7 @@ const DetailedPost = () => {
         }
       })
       .then(() => {
-        navigate("/bulletinBoard/:id");
+        navigate("/bulletin-board/:id");
       });
   };
 
